@@ -1,0 +1,188 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="clo-6">
+            <h4 class="card-title mb-4">Maintainer List</h4>
+          </div>
+          <div class="clo-6">
+
+
+            <button type="button" class=" float-end mb-4 btn  btn-info btn-sm btn-rounded" (click)="addModal()">
+              Add Maintainer</button>
+          </div>
+        </div>
+
+
+        <div class="table-responsive mb-0">
+          <table class="table table-centered table-nowrap">
+            <thead class="table-light">
+              <tr>
+
+                <th class="align-middle">ID</th>
+                <th class="align-middle">UserName</th>
+                <th class="align-middle">Email</th>
+                <th class="align-middle">Phone</th>
+                <th class="align-middle">Passowrd</th>
+                <th class="align-middle">Roles</th>
+                <th class="align-middle">Assigned Reservoir</th>
+                <th class="align-middle">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listOfUsers ; let i = index">
+                <td>
+                  <a href="javascript: void(0);" class="text-body fw-bold">{{i+1}}</a>
+                </td>
+                <td>{{data.username}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phone}}</td>
+                <td>{{data.plainPassword}}</td>
+
+                <td>
+                  <span class="text-info" *ngFor="let role of data.roles ; let isLast = last">{{role.name ||
+                    "NA"}}{{isLast ? '' : ', '}} </span>
+                  <span *ngIf="data.roles?.length <= 0">NA</span>
+                </td>
+
+                <td>
+                  <span class="text-warning" *ngFor="let role of data.reservoirs ; let isLast = last">{{role.name ||
+                    "NA"}}{{isLast ? '' : ', '}} </span>
+                  <span *ngIf="data.reservoirs?.length <= 0">NA</span>
+                </td>
+
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary btn-sm btn-rounded " (click)="editModal(data.id)">
+                    Edit</button>
+                  <span> | </span>
+                  <button type="button" class="btn btn-danger btn-sm btn-rounded" (click)="openModal()">
+                    Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #addContent role="document" let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title mt-0">Add Maintainer Details</h5>
+              <button type="button" class="btn-close" aria-hidden="true"
+                (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+
+              <form [formGroup]="myForm">
+
+                <div class="mb-3">
+                  <label for="formrow-name-input">Username</label>
+                  <input type="text" formControlName="username" class="form-control" id="formrow-name-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-email-input">Email</label>
+                  <input type="text" formControlName="email" class="form-control" id="formrow-email-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-password-input">password</label>
+                  <input type="text" formControlName="password" class="form-control" id="formrow-password-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-phone-input">phone</label>
+                  <input type="text" formControlName="phone" class="form-control" id="formrow-phone-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-roles-input">Roles</label>
+                  <select formControlName="roles" class="form-control" id="formrow-roles-input"
+                    (change)="changeWebsite($event)">
+                    <option disabled>Select Roles</option>
+                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+                  </select>
+                </div>
+
+                <!--
+                <div class="mb-3">
+                  <label for="formrow-reservoir-input">reservoir</label>
+                  <select formControlName="reservoirs" class="form-control" id="formrow-reservoir-input"
+                    (change)="changeWebsite($event)">
+                    <option disabled>Select reservoir</option>
+                    <option *ngFor="let reservoir of reservoirs" [ngValue]="reservoir.id">{{reservoir.name}}</option>
+                  </select>
+                </div> -->
+
+
+                <div>
+                  <button type="button" (click)="addMaintainer()" class="btn btn-primary w-md">Submit</button>
+                </div>
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+            </div>
+          </ng-template>
+
+
+
+          <ng-template #editContent role="document" let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title mt-0">Update Maintainer Details</h5>
+              <button type="button" class="btn-close" aria-hidden="true"
+                (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+
+              <form [formGroup]="myForm" (ngSubmit)="submit()">
+
+
+                <div class="mb-3">
+                  <label for="formrow-id-input">ID</label>
+                  <input type="text" disabled formControlName="id" class="form-control" id="formrow-id-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-name-input">Username</label>
+                  <input type="text" formControlName="username" class="form-control" id="formrow-name-input">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formrow-roles-input">Roles</label>
+                  <select formControlName="roles" multiple class="form-control" id="formrow-roles-input"
+                    (change)="changeWebsite($event)">
+                    <option disabled>Select Roles</option>
+                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+                  </select>
+                </div>
+
+
+                <div class="mb-3">
+                  <label for="formrow-reservoir-input">reservoir</label>
+                  <select formControlName="reservoirs" multiple class="form-control" id="formrow-reservoir-input"
+                    (change)="changeWebsite($event)">
+                    <option disabled>Select reservoir</option>
+                    <option *ngFor="let reservoir of reservoirs" [ngValue]="reservoir.id">{{reservoir.name}}</option>
+                  </select>
+                </div>
+
+
+                <div>
+                  <button type="submit" class="btn btn-primary w-md">Submit</button>
+                </div>
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+            </div>
+          </ng-template>
+
+
+        </div>
+        <!-- end table -->
+      </div>
+    </div>
+  </div>
+</div>

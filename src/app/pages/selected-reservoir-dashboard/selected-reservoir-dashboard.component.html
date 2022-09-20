@@ -1,0 +1,282 @@
+
+
+  <div class="container-fluid">
+
+    <!-- start page title -->
+    <!-- <app-page-title title="Apex charts" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+    <!-- end page title -->
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-4">Line with Data Labels</h4>
+            <apx-chart class="apex-charts" dir="ltr" [series]="linewithDataChart.series"
+              [chart]="linewithDataChart.chart" [colors]="linewithDataChart.colors" [stroke]="linewithDataChart.stroke"
+              [dataLabels]="linewithDataChart.dataLabels" [title]="linewithDataChart.title"
+              [responsive]="linewithDataChart.responsive" [legend]="linewithDataChart.legend"
+              [xaxis]="linewithDataChart.xaxis" [yaxis]="linewithDataChart.yaxis" [stroke]="linewithDataChart.stroke"
+              [markers]="linewithDataChart.markers">
+            </apx-chart>
+          </div>
+        </div>
+        <!--end card-->
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-4">Dashed Line</h4>
+            <apx-chart class="apex-charts" dir="ltr" [series]="dashedLineChart.series" [chart]="dashedLineChart.chart"
+              [dataLabels]="dashedLineChart.dataLabels" [stroke]="dashedLineChart.stroke"
+              [colors]="dashedLineChart.colors" [xaxis]="dashedLineChart.xaxis" [grid]="dashedLineChart.grid"
+              [tooltip]="dashedLineChart.tooltip" [plotOptions]="dashedLineChart.plotOptions"
+              [fill]="dashedLineChart.fill" [markers]="dashedLineChart.markers" [legend]="dashedLineChart.legend"
+              [yaxis]="dashedLineChart.yaxis" [tooltip]="dashedLineChart.tooltip"></apx-chart>
+          </div>
+        </div>
+        <!--end card-->
+      </div>
+    </div>
+    <!-- end row -->
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <h4 class="card-title mb-4">Lateset Details</h4>
+            <button class="btn btn-info btn-sm m-2" *ngIf="isAdmin == false" (click)="openModal()">add</button>
+          </div>
+          <div class="table-responsive mb-0">
+            <table class="table table-centered table-nowrap">
+              <thead class="table-light">
+                <tr>
+                  <!-- <th style="width: 20px;">
+                  <div class="form-check font-size-16 align-middle">
+                    <input class="form-check-input" type="checkbox" id="transactionCheck01">
+                    <label class="form-check-label" for="transactionCheck01"></label>
+                  </div>
+                </th> -->
+                  <th class="align-middle">ID</th>
+                  <th class="align-middle">Date</th>
+                  <th class="align-middle">Reservoir Name</th>
+                  <th class="align-middle">Maintainer</th>
+
+                  <th class="align-middle">Capacity</th>
+                  <th class="align-middle">full Height</th>
+
+                  <th class="align-middle">present Depth Of Storage</th>
+                  <th class="align-middle">present Storage</th>
+                  <th class="align-middle">inflow</th>
+                  <th class="align-middle">outflow</th>
+                  <th class="align-middle">rainfall</th>
+                  <th class="align-middle" *ngIf="isAdmin == false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of reservoirDetailsList">
+
+
+                  <td>
+                    <a href="javascript: void(0);" class="text-body fw-bold">{{data.id}}</a>
+                  </td>
+
+                  <td>{{data.date | date}}</td>
+
+                  <td>{{data.reservoir?.name}}</td>
+                  <td>{{data.user?.username}}</td>
+
+                  <td>{{ data.reservoir.capacity}}</td>
+                  <td>{{data.reservoir.fullHeight}}</td>
+
+                  <td>{{data.presentDepthOfStorage}}</td>
+                  <td>{{data.presentStorage}}</td>
+                  <td>{{data.inflow}}</td>
+                  <td>{{data.outflow}}</td>
+                  <td>{{data.rainfall}}</td>
+
+
+
+                  <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-sm btn-rounded" *ngIf="isAdmin == false"
+                      (click)="editModal(data.id)">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <ng-template #content role="document" let-modal>
+              <div class="modal-header">
+                <h5 class="modal-title mt-0">Order Details</h5>
+                <button type="button" class="btn-close" aria-hidden="true"
+                  (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <p class="mb-2">
+                  Product id:
+                  <span class="text-primary">#SK2540</span>
+                </p>
+                <p class="mb-4">
+                  Billing Name:
+                  <span class="text-primary">Neal Matthews</span>
+                </p>
+                <div class="table-responsive">
+                  <table class="table table-centered table-nowrap">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <div>
+                            <img src="assets/images/product/img-7.png" alt class="avatar-sm" />
+                          </div>
+                        </th>
+                        <td>
+                          <div>
+                            <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
+                            <p class="text-muted mb-0">$ 225 x 1</p>
+                          </div>
+                        </td>
+                        <td>$ 255</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <div>
+                            <img src="assets/images/product/img-4.png" alt class="avatar-sm" />
+                          </div>
+                        </th>
+                        <td>
+                          <div>
+                            <h5 class="text-truncate font-size-14">Phone patterned cases</h5>
+                            <p class="text-muted mb-0">$ 145 x 1</p>
+                          </div>
+                        </td>
+                        <td>$ 145</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <h6 class="m-0 text-end">Sub Total:</h6>
+                        </td>
+                        <td>$ 400</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <h6 class="m-0 text-end">Shipping:</h6>
+                        </td>
+                        <td>Free</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <h6 class="m-0 text-end">Total:</h6>
+                        </td>
+                        <td>$ 400</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              </div>
+            </ng-template>
+
+
+            <ng-template #editContent role="document" let-modal>
+              <div class="modal-header">
+                <h5 class="modal-title mt-0">Update Maintainer Details</h5>
+                <button type="button" class="btn-close" aria-hidden="true"
+                  (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+
+                <form [formGroup]="myForm" (ngSubmit)="submit()">
+
+                  <!--
+                <div class="mb-3">
+                  <label for="formrow-id-input">ID</label>
+                  <input type = "number" disabled formControlName="id" class="form-control" id="formrow-id-input">
+                </div> -->
+                  <!--
+                <div class="mb-3">
+                  <label for="formrow-fullHeight-input">Full Height</label>
+                  <input type="number" formControlName="fullHeight" class="form-control" id="formrow-fullHeight-input">
+                </div>
+
+
+                <div class="mb-3">
+                  <label for="formrow-capacity-input">Capacity</label>
+                  <input type="number" formControlName="capacity" class="form-control" id="formrow-capacity-input">
+                </div> -->
+
+
+
+                  <div class="mb-3" *ngIf="!editMode">
+                    <label for="formrow-date-input">Date</label>
+                    <input type="date" formControlName="date" class="form-control" id="formrow-date-input">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="formrow-rainfall-input">Rainfall</label>
+                    <input type="number" formControlName="rainfall" class="form-control" id="formrow-rainfall-input">
+                  </div>
+
+
+
+                  <div class="mb-3">
+                    <label for="formrow-presentDepthOfStorage-input">Present Depth Of Storage</label>
+                    <input type="number" formControlName="presentDepthOfStorage" class="form-control"
+                      id="formrow-presentDepthOfStorage-input">
+                  </div>
+
+
+                  <div class="mb-3">
+                    <label for="formrow-presentStorage-input">present Storage</label>
+                    <input type="number" formControlName="presentStorage" class="form-control"
+                      id="formrow-presentStorage-input">
+                  </div>
+
+
+                  <div class="mb-3">
+                    <label for="formrow-inflow-input">inflow</label>
+                    <input type="number" formControlName="inflow" class="form-control" id="formrow-inflow-input">
+                  </div>
+
+
+
+                  <div class="mb-3">
+                    <label for="formrow-outflow-input">outflow</label>
+                    <input type="number" formControlName="outflow" class="form-control" id="formrow-outflow-input">
+                  </div>
+
+
+                  <div>
+                    <button type="submit" class="btn btn-primary w-md">Submit</button>
+                  </div>
+                </form>
+
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              </div>
+            </ng-template>
+
+
+
+
+
+
+          </div>
+          <!-- end table -->
+        </div>
+      </div>
+    </div>
