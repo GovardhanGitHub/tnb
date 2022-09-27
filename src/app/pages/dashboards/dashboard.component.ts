@@ -19,6 +19,10 @@ export class DashboardComponent implements OnInit {
   @ViewChild('content') content;
   reservoirList;
   isActive;
+  recentInflow;
+  recentOutflow;
+  recentPDS;
+  recentPS;
 
   constructor(
     private modalService: NgbModal,
@@ -47,12 +51,15 @@ export class DashboardComponent implements OnInit {
     this.userService.findAllUsers().subscribe(res => {
       console.log("🚀 ~ findAll ~ res", res)
       this.listOfUsers = res;
+      // this.getRecentUpdatedData(this.listOfUsers);
     },
       (err) => {
         console.log(err);
       }
     )
   }
+
+
 
   user: any;
   findMaintainerByName(name) {
@@ -65,13 +72,37 @@ export class DashboardComponent implements OnInit {
   }
 
 
+
+  listOfUserswithUpdatedDetails: any[] = []
+  getRecentUpdatedData(listOfUsers: any[]) {
+    listOfUsers.forEach(element => {
+      // this.findReservoirDetailsById(element.reservoirs[0]?.id)
+      if (element.id == null)
+        this.listOfUserswithUpdatedDetails.push(element)
+      else
+        this.reservoirService.getReservoirEveryDayDetails(element.id)
+          .subscribe((res: ReservoirDetailsResponseDto[]) => {
+            console.log("id , reservoir details :", element.id, res);
+            this.reservoirDetailsList = res
+            element = { ...element, ...{ reservoirDetailsList: this.reservoirDetailsList } }
+            console.log("element", element);
+            this.listOfUserswithUpdatedDetails.push(element)
+          });
+    });
+
+    console.log("listOfUserswithUpdatedDetails", this.listOfUserswithUpdatedDetails);
+  }
+
+
+
   reservoirDetailsList: ReservoirDetailsResponseDto[];
   findReservoirDetailsById(id) {
-    this.reservoirService.getReservoirEveryDayDetails(id)
-      .subscribe((res: ReservoirDetailsResponseDto[]) => {
-        console.log("reservoir details :", res);
-        this.reservoirDetailsList = res
-      });
+    if (id != null)
+      this.reservoirService.getReservoirEveryDayDetails(id)
+        .subscribe((res: ReservoirDetailsResponseDto[]) => {
+          console.log("id , reservoir details :", id, res);
+          this.reservoirDetailsList = res
+        });
   }
 
 
@@ -88,6 +119,7 @@ export class DashboardComponent implements OnInit {
     this.reservoirService.findAll().subscribe(res => {
       console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)
       this.reservoirList = res;
+      this.getRecentUpdatedData(this.reservoirList);
     },
       (err) => {
         console.log(err);

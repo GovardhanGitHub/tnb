@@ -39,6 +39,7 @@ export class TopbarComponent implements OnInit {
     this.user = JSON.parse(
       localStorage.getItem("authUser")
     ) as LoginResponseDto;
+
     console.log(
       "🚀 ~ file: topbar.component.ts ~ line 59 ~ TopbarComponent ~ ngOnInit ~ this.user",
       this.user
@@ -61,7 +62,7 @@ export class TopbarComponent implements OnInit {
   user: any;
 
   ngOnInit() {
-    this.openMobileMenu = false;
+    this.openMobileMenu = true;
     this.element = document.documentElement;
     // this.setLanguage("English", "en", "assets/images/flags/us.jpg");
 

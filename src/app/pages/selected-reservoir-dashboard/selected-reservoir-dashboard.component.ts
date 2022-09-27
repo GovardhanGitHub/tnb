@@ -26,7 +26,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   @ViewChild("editContent") content;
   transactions;
   authUser: LoginResponseDto;
-  user: any;
+  user: any = {};
   userId: number;
   reservoirId: number;
   isReservoirAssigned = false;
@@ -35,6 +35,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   reservoirFullHeight: number;
   reservoirCapacity: number;
   isAdmin = false;
+
   ngOnInit(): void {
 
     this.myForm = new FormGroup(
@@ -54,8 +55,10 @@ export class SelectedReservoirDashboardComponent implements OnInit {
     this.authUser = JSON.parse(
       localStorage.getItem("authUser")
     ) as LoginResponseDto;
+
     this.route.params.subscribe((params: Params) => this.id = params['id']);
     console.log("id,", this.id);
+    // this._fetchData();
 
     if (this.id == null) {
       this.findMaintainerByName(this.authUser?.authentication.principal?.username);
@@ -63,7 +66,6 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       this.isAdmin = true;
       this.findReservoirDetailsById(this.id);
     }
-    this._fetchData();
   }
   id: any;
   openModal() {
@@ -80,6 +82,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
           this.isReservoirAssigned = true;
           this.reservoirEveryDayUpdateDto.userId = this.user.id;
           this.reservoirEveryDayUpdateDto.reservoirId = this.user.reservoirs[0].id
+
           this.reservoirCapacity = this.user?.reservoirs[0]?.capacity
           this.reservoirFullHeight = this.user?.reservoirs[0]?.fullHeight
 
@@ -88,6 +91,114 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       });
   }
 
+  fetchChartData(reservoirDetailsList: ReservoirDetailsResponseDto[]) {
+    console.log("ReservoirDetailsResponseDto[]", reservoirDetailsList);
+
+    let xAxisDateWise: any[] = [];
+    let presentDepth: any[] = [];
+
+    reservoirDetailsList?.forEach(r => {
+      if (r.date != null)
+        xAxisDateWise.push(r.date);
+      else
+        xAxisDateWise.push(new Date(r.createdOn).toDateString());
+
+      presentDepth.push(r.presentDepthOfStorage)
+    });
+
+    // this.dashedLineChart.xaxis.categories = xAxisDateWise;
+    console.log("xAxisDateWise ", presentDepth, xAxisDateWise);
+
+    this.dashedLineChart = {
+      chart: {
+        height: 324,
+        type: 'area',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false,
+        }
+      },
+      colors: ['#556ee6', '#f46a6a', '#34c38f'],
+      // colors: ['#556ee6', '#f46a6a', '#34c38f'],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: [3, 4, 3],
+        curve: 'smooth',
+        dashArray: [0, 8, 5]
+      },
+      series: [{
+        name: 'Present Depth Of Storage',
+        data: presentDepth
+
+        // [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
+      }
+        // {
+        //   name: 'Page Views',
+        //   data: [36, 42, 60, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+        // },
+        // {
+        //   name: 'Total Visits',
+        //   data: [89, 56, 74, 98, 72, 38, 64, 46, 84, 58, 46, 49]
+        // }
+      ],
+
+      title: {
+        text: 'Page Statistics',
+        align: 'left'
+      },
+
+      markers: {
+        size: 0,
+
+        hover: {
+          sizeOffset: 6
+        }
+      },
+
+      xaxis: {
+        categories: xAxisDateWise
+
+        // ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
+        //   '10 Jan', '11 Jan', '12 Jan'
+        // ],
+      },
+
+
+      tooltip: {
+        y: [{
+          title: {
+            formatter: (val) => {
+              return val + ' (ft)';
+            }
+          }
+        }, {
+          title: {
+            formatter: (val) => {
+              return val + ' per session';
+            }
+          }
+        }, {
+          title: {
+            formatter: (val) => {
+              return val;
+            }
+          }
+        }]
+      },
+      grid: {
+        borderColor: '#f1f1f1',
+      }
+    };
+    // this.dashedLineChart.
+
+
+  }
+
+  reservoir: any = {}
 
   reservoirDetailsList: ReservoirDetailsResponseDto[];
   findReservoirDetailsById(id) {
@@ -95,6 +206,12 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       .subscribe((res: ReservoirDetailsResponseDto[]) => {
         console.log("reservoir details :", res);
         this.reservoirDetailsList = res
+        if (this.reservoirDetailsList.length > 0) {
+          this.reservoirCapacity = this.reservoirDetailsList[0]?.reservoir?.capacity
+          this.reservoirFullHeight = this.reservoirDetailsList[0]?.reservoir?.fullHeight
+          this.user = this.reservoirDetailsList[0].user;
+        }
+        this.fetchChartData(this.reservoirDetailsList);
       });
   }
 
@@ -164,15 +281,17 @@ export class SelectedReservoirDashboardComponent implements OnInit {
 
 
 
+
   linewithDataChart: ChartType;
-  dashedLineChart: ChartType;
+  dashedLineChart: ChartType = {};
+  splineAreaChart: ChartType;
 
   private _fetchData() {
 
     this.dashedLineChart = {
       chart: {
         height: 380,
-        type: 'line',
+        type: 'area',
         zoom: {
           enabled: false
         },
@@ -181,26 +300,27 @@ export class SelectedReservoirDashboardComponent implements OnInit {
         }
       },
       colors: ['#556ee6', '#f46a6a', '#34c38f'],
+      // colors: ['#556ee6', '#f46a6a', '#34c38f'],
       dataLabels: {
         enabled: false
       },
       stroke: {
         width: [3, 4, 3],
-        curve: 'straight',
+        curve: 'smooth',
         dashArray: [0, 8, 5]
       },
       series: [{
-        name: 'Session Duration',
+        name: 'Present Depth Of Storage',
         data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
-      },
-      {
-        name: 'Page Views',
-        data: [36, 42, 60, 42, 13, 18, 29, 37, 36, 51, 32, 35]
-      },
-      {
-        name: 'Total Visits',
-        data: [89, 56, 74, 98, 72, 38, 64, 46, 84, 58, 46, 49]
       }
+        // {
+        //   name: 'Page Views',
+        //   data: [36, 42, 60, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+        // },
+        // {
+        //   name: 'Total Visits',
+        //   data: [89, 56, 74, 98, 72, 38, 64, 46, 84, 58, 46, 49]
+        // }
       ],
 
       title: {
@@ -215,11 +335,14 @@ export class SelectedReservoirDashboardComponent implements OnInit {
           sizeOffset: 6
         }
       },
+
       xaxis: {
         categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
           '10 Jan', '11 Jan', '12 Jan'
         ],
       },
+
+
       tooltip: {
         y: [{
           title: {
@@ -243,6 +366,43 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       },
       grid: {
         borderColor: '#f1f1f1',
+      }
+    };
+
+
+
+    this.splineAreaChart = {
+      chart: {
+        height: 350,
+        type: 'area',
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+      },
+      series: [{
+        name: 'series1',
+        data: [34, 40, 28, 52, 42, 109, 100]
+      }, {
+        name: 'series2',
+        data: [32, 60, 34, 46, 34, 52, 41]
+      }],
+      colors: ['#556ee6', '#34c38f'],
+      xaxis: {
+        type: 'datetime',
+        // tslint:disable-next-line: max-line-length
+        categories: ['2018-09-19T00:00:00', '2018-09-19T01:30:00', '2018-09-19T02:30:00', '2018-09-19T03:30:00', '2018-09-19T04:30:00', '2018-09-19T05:30:00', '2018-09-19T06:30:00'],
+      },
+      grid: {
+        borderColor: '#f1f1f1',
+      },
+      tooltip: {
+        x: {
+          format: 'dd/MM/yy HH:mm'
+        },
       }
     };
 

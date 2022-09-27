@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-xl-4">
+    <div class="card overflow-hidden">
+      <div class="bg-primary bg-soft">
+        <div class="row">
+          <div class="col-7">
+            <div class="text-primary p-3">
+              <h5 class="text-primary">Welcome Back !</h5>
+
+            </div>
+          </div>
+          <div class="col-5 align-self-end">
+            <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+          </div>
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        <div class="row">
+          <div class="col pt-5 pb-4">
+            <!-- <div class="avatar-md profile-user-wid mb-4">
+                          <img  alt="" class="img-thumbnail rounded-circle">
+                      </div> -->
+            <h5 class="font-size-15 text-truncate">{{user?.name}}</h5>
+            <p class="text-muted mb-0 text-truncate">{{user?.email}}</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <p class=" mb-4"><i class="mdi mdi-ethereum h2 text-primary align-middle mb-0 me-3"></i> Maintainers </p>
+
+            <div class="row">
+              <div class="col">
+                <div>
+                  <h5 class="text-center">{{listOfUsers?.length || "NA"}}</h5>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6  ">
+        <div class="card">
+          <div class="card-body">
+            <p class=" mb-4"><i class="mdi mdi-litecoin h2 text-info align-middle mb-0 me-3"></i> Reservoirs</p>
+
+            <div class="row">
+              <div class="col">
+                <div>
+                  <h5 class="text-center">{{reservoirList?.length || "NA"}}</h5>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-xl-8">
+  </div>
+</div>

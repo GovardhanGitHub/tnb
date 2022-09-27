@@ -8,29 +8,43 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 2,
-    label: "MENUITEMS.DASHBOARDS.TEXT",
+    label: "Home",
     icon: "bx-home-circle",
     link: "/dashboard",
   },
   {
-    id: 12,
-    label: "Data Management",
-    icon: "bx-store",
-    subItems: [
-      {
-        id: 13,
-        label: "Reservoirs",
-        link: "/addReservoir",
-        parentId: 12,
-      },
-      {
-        id: 20,
-        label: "Maintainers",
-        link: "/addMaintainer",
-        parentId: 12,
-      },
-    ],
+    id: 13,
+    label: "Reservoirs",
+    icon:"bx-tone",
+    link: "/addReservoir",
+    parentId: 12,
   },
+  {
+    id: 20,
+    label: "Maintainers",
+    icon:"bx-user-circle",
+    link: "/addMaintainer",
+    parentId: 12,
+  }
+  // {
+  //   id: 12,
+  //   label: "Data Management",
+  //   icon: "bx-store",
+  //   subItems: [
+  //     {
+  //       id: 13,
+  //       label: "Reservoirs",
+  //       link: "/addReservoir",
+  //       parentId: 12,
+  //     },
+  //     {
+  //       id: 20,
+  //       label: "Maintainers",
+  //       link: "/addMaintainer",
+  //       parentId: 12,
+  //     },
+  //   ],
+  // },
 ];
 
 export const MENU2: MenuItem[] = [
