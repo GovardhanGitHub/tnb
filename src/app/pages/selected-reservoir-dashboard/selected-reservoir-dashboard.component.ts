@@ -35,15 +35,19 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   reservoirFullHeight: number;
   reservoirCapacity: number;
   isAdmin = false;
+  todayDate = "";
 
   ngOnInit(): void {
+
+    this.todayDate = new Date(Date.now()).toLocaleString().split(',')[0]
+    console.log("today date ", this.todayDate);
 
     this.myForm = new FormGroup(
       {
         id: new FormControl(''),
         // fullHeight: new FormControl(''),
         // capacity: new FormControl(''),
-        date: new FormControl('', Validators.required),
+        date: new FormControl(this.todayDate, Validators.required),
         presentDepthOfStorage: new FormControl(''),
         presentStorage: new FormControl(''),
         inflow: new FormControl(''),
