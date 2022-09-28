@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
   <!-- start page title -->
   <!-- <app-page-title title="Apex charts" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
   <!-- end page title -->
@@ -31,7 +30,7 @@
               </div>
             </div>
             <div class="col-5 align-self-end"> -->
-            <img src="assets/images/reservoir.jpg" alt="" class="img-fluid">
+            <img src="assets/images/reservoir.jpg" alt="" class="img-fluid" />
             <!-- </div> -->
           </div>
         </div>
@@ -41,97 +40,126 @@
               <!-- <div class="avatar-md profile-user-wid mb-4">
                             <img  alt="" class="img-thumbnail rounded-circle">
                         </div> -->
-              <h1 class="text-truncate mb-2"><strong>{{user?.reservoirs[0]?.name}}</strong></h1>
-              <h5 class="font-size-15 text-truncate"><span class="text-info">Maintainer Name : </span> {{user?.name }}
+              <h1 class="text-truncate mb-2">
+                <strong>{{ user?.reservoirs[0]?.name }}</strong>
+              </h1>
+              <h5 class="font-size-15 text-truncate">
+                <span class="text-info">Maintainer Name : </span>
+                {{ user?.name }}
               </h5>
               <!-- <p class="text-muted mb-0 text-truncate">{{user?.email}}</p> -->
             </div>
-
           </div>
         </div>
       </div>
 
       <div class="row">
-
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <p><i class="mdi mdi-ethereum h2 text-primary align-middle mb-0 me-3"></i> Capacity </p>
+              <p>
+                <i
+                  class="mdi mdi-ethereum h2 text-primary align-middle mb-0 me-3"
+                ></i>
+                Capacity
+              </p>
 
               <div class="row">
                 <div class="col">
                   <div>
-                    <h5 class="text-center font-weight-bold">{{reservoirCapacity}} <span class="text-center">(in
-                        mcft.)</span></h5>
+                    <h5 class="text-center font-weight-bold">
+                      {{ reservoirCapacity }}
+                      <span class="text-center">(in mcft.)</span>
+                    </h5>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-6  ">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <p><i class="mdi mdi-litecoin h2 text-info align-middle mb-0 me-1"></i> Full Height</p>
+              <p>
+                <i
+                  class="mdi mdi-litecoin h2 text-info align-middle mb-0 me-1"
+                ></i>
+                Full Height
+              </p>
 
               <div class="row">
                 <div class="col">
                   <div>
-                    <h5 class="text-center "><span class="font-weight-bold">{{reservoirFullHeight}}</span> (in ft.)</h5>
-
-
+                    <h5 class="text-center">
+                      <span class="font-weight-bold">{{
+                        reservoirFullHeight
+                      }}</span>
+                      (in ft.)
+                    </h5>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="col-lg-8">
       <div class="card">
         <div class="card-body">
-
           <div class="d-sm-flex flex-wrap">
             <h4 class="card-title mb-4">Daily Water Level Report</h4>
             <div class="ms-auto">
-              <ul class="nav nav-pills ">
+              <ul class="nav nav-pills">
                 <li class="nav-item">
                   <!-- <a class="nav-link" href="javascript: void(0);"
                             [ngClass]="{'active': isActive === 'week'}" (click)="a()">Week</a> -->
-                  <div class="m-1 ">
+                  <div class="m-1">
                     <label for="formrow-date-input">From</label>
-                    <input type="date" formControlName="date" class="form-control" id="formrow-date-input">
-
+                    <input
+                      type="date"
+                      formControlName="date"
+                      class="form-control"
+                      id="formrow-date-input"
+                    />
                   </div>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" href="javascript: void(0);" (click)="a()"
                             [ngClass]="{'active': isActive === 'month'}">Month</a> -->
-                  <div class="m-1 ">
+                  <div class="m-1">
                     <label for="formrow-date-input">To</label>
-                    <input type="date" formControlName="date" class="form-control" id="formrow-date-input">
-
+                    <input
+                      type="date"
+                      formControlName="date"
+                      class="form-control"
+                      id="formrow-date-input"
+                    />
                   </div>
                 </li>
-
               </ul>
             </div>
           </div>
 
-
-
-          <apx-chart class="apex-charts" dir="ltr" [series]="dashedLineChart.series" [chart]="dashedLineChart.chart"
-            [dataLabels]="dashedLineChart.dataLabels" [stroke]="dashedLineChart.stroke"
-            [colors]="dashedLineChart.colors" [xaxis]="dashedLineChart.xaxis" [grid]="dashedLineChart.grid"
-            [tooltip]="dashedLineChart.tooltip" [plotOptions]="dashedLineChart.plotOptions"
-            [fill]="dashedLineChart.fill" [markers]="dashedLineChart.markers" [legend]="dashedLineChart.legend"
-            [yaxis]="dashedLineChart.yaxis" [tooltip]="dashedLineChart.tooltip"></apx-chart>
+          <apx-chart
+            class="apex-charts"
+            dir="ltr"
+            [series]="dashedLineChart.series"
+            [chart]="dashedLineChart.chart"
+            [dataLabels]="dashedLineChart.dataLabels"
+            [stroke]="dashedLineChart.stroke"
+            [colors]="dashedLineChart.colors"
+            [xaxis]="dashedLineChart.xaxis"
+            [grid]="dashedLineChart.grid"
+            [tooltip]="dashedLineChart.tooltip"
+            [plotOptions]="dashedLineChart.plotOptions"
+            [fill]="dashedLineChart.fill"
+            [markers]="dashedLineChart.markers"
+            [legend]="dashedLineChart.legend"
+            [yaxis]="dashedLineChart.yaxis"
+            [tooltip]="dashedLineChart.tooltip"
+          ></apx-chart>
         </div>
       </div>
       <!--end card-->
@@ -140,21 +168,21 @@
   <!-- end row -->
 </div>
 
-
-
-
-
-
 <div class="row">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4 class="card-title mb-4">Lateset Details</h4>
-          <button class="btn btn-info btn-sm m-2" *ngIf="isAdmin == false" (click)="openModal()">Add today
-            update</button>
+          <button
+            class="btn btn-info btn-sm m-2"
+            *ngIf="isAdmin == false"
+            (click)="openModal()"
+          >
+            Add today update
+          </button>
         </div>
-        <div class="table-responsive mb-0 ">
+        <div class="table-responsive mb-0">
           <table class="table table-centered table-sm table-nowrap">
             <thead class="table-light">
               <tr>
@@ -172,7 +200,6 @@
                 <th class="align-middle">Capacity(in mcft)</th>
                 <th class="align-middle">Full Height(in ft)</th> -->
 
-
                 <th class="align-middle">Inflow(in c/s)</th>
                 <th class="align-middle">Outflow(in c/s)</th>
                 <th class="align-middle">Rainfall (in mm)</th>
@@ -183,13 +210,13 @@
             </thead>
             <tbody>
               <tr *ngFor="let data of reservoirDetailsList">
-
-
                 <td>
-                  <a href="javascript: void(0);" class="text-body fw-bold">{{data.id}}</a>
+                  <a href="javascript: void(0);" class="text-body fw-bold">{{
+                    data.id
+                  }}</a>
                 </td>
 
-                <td>{{data.date | date}}</td>
+                <td>{{ data.lastModified | date: "medium" }}</td>
 
                 <!-- <td>{{data.reservoir?.name}}</td>
                 <td>{{data.user?.username}}</td>
@@ -197,24 +224,27 @@
                 <td>{{ data.reservoir.capacity}}</td>
                 <td>{{data.reservoir.fullHeight}}</td> -->
 
-                <td>{{data.inflow}}</td>
-                <td>{{data.outflow}}</td>
-                <td>{{data.rainfall}}</td>
-
+                <td>{{ data.inflow }}</td>
+                <td>{{ data.outflow }}</td>
+                <td>{{ data.rainfall }}</td>
 
                 <td>
-                  <h5 class=" text-info">{{data.presentDepthOfStorage}}</h5>
+                  <h5 class="text-info">{{ data.presentDepthOfStorage }}</h5>
                 </td>
                 <td>
-                  <h5 class=" text-info">{{data.presentStorage}}</h5>
+                  <h5 class="text-info">{{ data.presentStorage }}</h5>
                 </td>
-
-
 
                 <td>
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary btn-sm btn-rounded" *ngIf="isAdmin == false"
-                    (click)="editModal(data.id)">Edit</button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm btn-rounded"
+                    *ngIf="isAdmin == false"
+                    (click)="editModal(data.id)"
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -223,8 +253,12 @@
           <ng-template #content role="document" let-modal>
             <div class="modal-header">
               <h5 class="modal-title mt-0">Order Details</h5>
-              <button type="button" class="btn-close" aria-hidden="true"
-                (click)="modal.dismiss('Cross click')"></button>
+              <button
+                type="button"
+                class="btn-close"
+                aria-hidden="true"
+                (click)="modal.dismiss('Cross click')"
+              ></button>
             </div>
             <div class="modal-body">
               <p class="mb-2">
@@ -248,12 +282,18 @@
                     <tr>
                       <th scope="row">
                         <div>
-                          <img src="assets/images/product/img-7.png" alt class="avatar-sm" />
+                          <img
+                            src="assets/images/product/img-7.png"
+                            alt
+                            class="avatar-sm"
+                          />
                         </div>
                       </th>
                       <td>
                         <div>
-                          <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
+                          <h5 class="text-truncate font-size-14">
+                            Wireless Headphone (Black)
+                          </h5>
                           <p class="text-muted mb-0">$ 225 x 1</p>
                         </div>
                       </td>
@@ -262,12 +302,18 @@
                     <tr>
                       <th scope="row">
                         <div>
-                          <img src="assets/images/product/img-4.png" alt class="avatar-sm" />
+                          <img
+                            src="assets/images/product/img-4.png"
+                            alt
+                            class="avatar-sm"
+                          />
                         </div>
                       </th>
                       <td>
                         <div>
-                          <h5 class="text-truncate font-size-14">Phone patterned cases</h5>
+                          <h5 class="text-truncate font-size-14">
+                            Phone patterned cases
+                          </h5>
                           <p class="text-muted mb-0">$ 145 x 1</p>
                         </div>
                       </td>
@@ -296,21 +342,27 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button
+                class="btn btn-secondary"
+                (click)="modal.close('Close click')"
+              >
+                Close
+              </button>
             </div>
           </ng-template>
 
-
           <ng-template #editContent role="document" let-modal>
             <div class="modal-header">
-              <h5 class="modal-title mt-0">Update Maintainer Details</h5>
-              <button type="button" class="btn-close" aria-hidden="true"
-                (click)="modal.dismiss('Cross click')"></button>
+              <h5 class="modal-title mt-0">Update Today's Details</h5>
+              <button
+                type="button"
+                class="btn-close"
+                aria-hidden="true"
+                (click)="modal.dismiss('Cross click')"
+              ></button>
             </div>
             <div class="modal-body">
-
               <form [formGroup]="myForm" (ngSubmit)="submit()">
-
                 <!--
                 <div class="mb-3 ">
                   <label for="formrow-id-input">ID</label>
@@ -328,31 +380,44 @@
                   <input type="number" formControlName="capacity" class="form-control" id="formrow-capacity-input">
                 </div> -->
 
-
-
-                <div class="mb-3 " *ngIf="!editMode">
+                <div class="mb-3" *ngIf="!editMode">
                   <label for="formrow-date-input">Date</label>
-                  <input type="date" formControlName="date" class="form-control" id="formrow-date-input">
-
+                  <input
+                    type="date"
+                    formControlName="date"
+                    class="form-control"
+                    id="formrow-date-input"
+                  />
                 </div>
 
-                <div class="mb-3 ">
+                <div class="mb-3">
                   <label for="formrow-rainfall-input">Rainfall</label>
                   <div class="input-group">
-                    <input type="number" formControlName="rainfall" class="form-control" id="formrow-rainfall-input">
+                    <input
+                      type="number"
+                      step="0.01"
+                      formControlName="rainfall"
+                      class="form-control"
+                      id="formrow-rainfall-input"
+                    />
                     <div class="input-group-append">
                       <span class="input-group-text">mm</span>
                     </div>
                   </div>
                 </div>
 
-
-
-                <div class="mb-3 ">
-                  <label for="formrow-presentDepthOfStorage-input">Present Depth Of Storage</label>
+                <div class="mb-3">
+                  <label for="formrow-presentDepthOfStorage-input"
+                    >Present Depth Of Storage</label
+                  >
                   <div class="input-group">
-                    <input type="number" formControlName="presentDepthOfStorage" class="form-control"
-                      id="formrow-presentDepthOfStorage-input">
+                    <input
+                      type="number"
+                      step="0.01"
+                      formControlName="presentDepthOfStorage"
+                      class="form-control"
+                      id="formrow-presentDepthOfStorage-input"
+                    />
 
                     <div class="input-group-append">
                       <span class="input-group-text">ft</span>
@@ -360,25 +425,34 @@
                   </div>
                 </div>
 
-
-
-
-                <div class="mb-3 ">
-                  <label for="formrow-presentStorage-input">present Storage</label>
+                <div class="mb-3">
+                  <label for="formrow-presentStorage-input"
+                    >present Storage</label
+                  >
                   <div class="input-group">
-                    <input type="number" formControlName="presentStorage" class="form-control"
-                      id="formrow-presentStorage-input">
+                    <input
+                      type="number"
+                      step="0.01"
+                      formControlName="presentStorage"
+                      class="form-control"
+                      id="formrow-presentStorage-input"
+                    />
                     <div class="input-group-append">
                       <span class="input-group-text">mcft</span>
                     </div>
                   </div>
                 </div>
 
-
-                <div class="mb-3 ">
+                <div class="mb-3">
                   <label for="formrow-inflow-input">inflow</label>
                   <div class="input-group">
-                    <input type="number" formControlName="inflow" class="form-control" id="formrow-inflow-input">
+                    <input
+                      type="number"
+                      step="0.01"
+                      formControlName="inflow"
+                      class="form-control"
+                      id="formrow-inflow-input"
+                    />
 
                     <div class="input-group-append">
                       <span class="input-group-text">c/s</span>
@@ -386,37 +460,41 @@
                   </div>
                 </div>
 
-
-
-                <div class="mb-3 ">
+                <div class="mb-3">
                   <label for="formrow-outflow-input">outflow</label>
                   <div class="input-group">
-                    <input type="number" formControlName="outflow" class="form-control" id="formrow-outflow-input">
+                    <input
+                      type="number"
+                      step="0.01"
+                      formControlName="outflow"
+                      class="form-control"
+                      id="formrow-outflow-input"
+                    />
                     <div class="input-group-append">
                       <span class="input-group-text">c/s</span>
                     </div>
                   </div>
                 </div>
 
-
                 <div>
-                  <button type="submit" class="btn btn-primary w-md">Submit</button>
+                  <button type="submit" class="btn btn-primary w-md">
+                    Submit
+                  </button>
                 </div>
               </form>
-
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button
+                class="btn btn-secondary"
+                (click)="modal.close('Close click')"
+              >
+                Close
+              </button>
             </div>
           </ng-template>
-
-
-
-
-
-
         </div>
         <!-- end table -->
       </div>
     </div>
   </div>
+</div>

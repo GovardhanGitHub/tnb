@@ -3,105 +3,135 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-4">Reservoir Details</h4>
+          <h4 class="card-title mb-4 font-size-18">Reservoir Details</h4>
           <!-- <button class="btn btn-info btn-sm m-2" (click)="openModal()">add</button> -->
         </div>
         <div class="table-responsive mb-0">
           <table class="table table-centered table-nowrap">
             <thead class="table-light">
               <tr>
-
                 <!-- <th class="align-middle">Reservoir ID</th> -->
-                <th class="align-middle">Reservoir Name</th>
-                <th class="align-middle">Region</th>
+                <th class="align-middle font-size-17">Reservoir Name</th>
+                <th class="align-middle font-size-17">District</th>
 
+                <th class="align-middle font-size-17">Full Height(in ft)</th>
+                <th class="align-middle font-size-17">Capacity(in mcft)</th>
 
-                <th class="align-middle">Inflow(in c/s)</th>
-                <th class="align-middle">Outflow(in c/s)</th>
+                <th class="align-middle font-size-17">Inflow(in c/s)</th>
+                <th class="align-middle font-size-17">Outflow(in c/s)</th>
 
+                <!-- <th class="align-m iddle">Rainfall (in mm)</th> -->
 
-                <th class="align-middle">Capacity(in mcft)</th>
-                <th class="align-middle">Full Height(in ft)</th>
-                <!-- <th class="align-middle">Rainfall (in mm)</th> -->
-
-                <th class="align-middle">Present Depth Of Storage(in ft)</th>
-                <th class="align-middle">Present Storage(in mcft)</th>
-                <th class="align-middle">Details</th>
+                <th class="align-middle font-size-17">
+                  Present Depth Of Storage(in ft)
+                </th>
+                <th class="align-middle font-size-17">
+                  Present Storage(in mcft)
+                </th>
+                <th class="align-middle font-size-17">Last Updated</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of listOfUserswithUpdatedDetails ; let i = index">
-
+              <tr
+                *ngFor="
+                  let data of listOfUserswithUpdatedDetails;
+                  let i = index
+                "
+                (click)="redirectToDetailsPage(data.id)"
+              >
                 <!-- <td>
                   <a href="javascript: void(0);" class="text-body fw-bold">{{data.id}}</a>
                 </td> -->
 
-
-
-
-                <td>{{data.name || "NA"}}</td>
+                <td>
+                  <h4>{{ data.name || "NA" }}</h4>
+                </td>
                 <!-- <td>{{findReservoirDetailsById(data.id) || "NA"}}</td> -->
-                <td>{{data.region || "NA"}}</td>
+                <td>
+                  <h4>{{ data.region || "NA" }}</h4>
+                </td>
 
+                <td class="text-info">
+                  <h4>{{ data.fullHeight || "Not Update" }}</h4>
+                </td>
 
+                <td class="text-success">
+                  <h4>{{ data.capacity || "Not Update" }}</h4>
+                </td>
 
-
-                <td><span
-                    *ngIf="data?.reservoirDetailsList?.length > 0; else  x">{{data?.reservoirDetailsList[0]?.inflow
-                    || "NA"}}
+                <td>
+                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                    ><h4>
+                      {{ data?.reservoirDetailsList[0]?.inflow || "NA" }}
+                    </h4>
                   </span>
                   <ng-template #x>
-                    <h6 class="text-danger">* NA</h6>
-                  </ng-template>
-                </td>
-                <td><span
-                    *ngIf="data?.reservoirDetailsList?.length > 0 ; else x ">{{data?.reservoirDetailsList[0]?.outflow
-                    || "NA"}}</span>
-                  <ng-template #x>
-                    <h6 class="text-danger">* NA</h6>
+                    <h5 class="text-danger">* NA</h5>
                   </ng-template>
                 </td>
 
+                <td>
+                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                    ><h4>
+                      {{ data?.reservoirDetailsList[0]?.outflow || "NA" }}
+                    </h4></span
+                  >
+                  <ng-template #x>
+                    <h5 class="text-danger">* NA</h5>
+                  </ng-template>
+                </td>
 
                 <!-- <td>{{data.fullHeight || "NA"}}</td> -->
 
-
-                <td class="text-success">{{data.capacity || "Not Update"}}</td>
-                <td class="text-info">{{data.fullHeight || "Not Update"}}</td>
-
-                <td><span
-                    *ngIf="data?.reservoirDetailsList?.length > 0 ; else x">{{data?.reservoirDetailsList[0]?.presentDepthOfStorage
-                    || "NA"}}
+                <td>
+                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                    ><h4 class="text-info">
+                      {{
+                        data?.reservoirDetailsList[0]?.presentDepthOfStorage ||
+                          "NA"
+                      }}
+                    </h4>
                   </span>
                   <ng-template #x>
-                    <h6 class="text-danger">* NA</h6>
+                    <h5 class="text-danger">* NA</h5>
                   </ng-template>
                 </td>
 
-                <td><span
-                    *ngIf="data?.reservoirDetailsList?.length > 0 ;else x">{{data?.reservoirDetailsList[0]?.presentStorage
-                    || "NA"}}</span>
+                <td>
+                  <h4 class="text-success">
+                    <span
+                      *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      >{{
+                        data?.reservoirDetailsList[0]?.presentStorage || "NA"
+                      }}</span
+                    >
+                  </h4>
                   <ng-template #x>
-                    <h6 class="text-danger">* NA</h6>
+                    <h5 class="text-danger">* NA</h5>
                   </ng-template>
                 </td>
 
+
+                <td class="text-success">
+                  <h4>{{ (data.lastModified | date : 'shortTime') || "Not Update" }}</h4>
+                </td>
 
                 <!-- <td>{{data?.reservoirDetailsListrecentInflow[0]?.presentDepthOfStorage || "NA"}}</td>
                 <td>{{data?.reservoirDetailsListrecentInflow[0]?.presentStorage || "NA"}}</td> -->
 
-
-                <td>
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary btn-sm btn-rounded "
-                    (click)="redirectToDetailsPage(data.id)">
-                    details</button>
-                  <!-- <span> | </span>
+                <!-- Button trigger modal -->
+                <!-- <td>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="redirectToDetailsPage(data.id)"
+                  >
+                    Details
+                  </button>
+                </td> -->
+                <!-- <span> | </span>
                   <button type="button" class="btn btn-danger btn-sm btn-rounded" (click)="openModal()">
                     Delete</button> -->
-                </td>
-
-
               </tr>
             </tbody>
           </table>
