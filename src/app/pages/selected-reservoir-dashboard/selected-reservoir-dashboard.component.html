@@ -197,7 +197,6 @@
           </div>
           <div class="float-end">
             <button
-              id="printPageButton"
               class="btn btn-info btn-sm m-2"
               *ngIf="isAdmin == false"
               (click)="openModal()"
@@ -239,13 +238,7 @@
                 <th class="align-middle">Present Depth Of Storage(in ft)</th>
                 <th class="align-middle">Present Storage(in mcft)</th>
 
-                <th
-                  class="align-middle"
-                  id="printPageButton"
-                  *ngIf="isAdmin == false"
-                >
-                  Actions
-                </th>
+                <th class="align-middle" *ngIf="isAdmin == false">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -285,7 +278,6 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-sm btn-rounded"
-                    *ngIf="isAdmin == false"
                     (click)="editModal(data.id)"
                   >
                     Edit
