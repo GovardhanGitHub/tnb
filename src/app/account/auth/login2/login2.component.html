@@ -1,56 +1,74 @@
 <div class="container-fluid p-0">
   <div class="row g-0">
-
     <div class="col-xl-9">
       <div class="auth-full-bg pt-lg-5 p-4">
         <div class="w-100">
           <div class="bg-overlay"></div>
           <div class="d-flex h-100 flex-column">
-
             <div class="p-4 mt-auto">
               <div class="row justify-content-center">
                 <div class="col-lg-7">
                   <div class="text-center">
-
-
                     <div dir="ltr">
-                      <owl-carousel-o class="owl-theme auth-review-carousel" [options]="carouselOption">
+                      <owl-carousel-o
+                        class="owl-theme auth-review-carousel"
+                        [options]="carouselOption"
+                      >
                         <ng-template carouselSlide>
                           <div class="item">
                             <div class="py-3">
-                              <h4 class="mb-3"><i
-                                  class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"></i><span
-                                  class="" style="color: white;">Poondi Reservoir</span></h4>
-                              <p class="font-size-16  mb-4" style="color: white;">" Poondi Reservoir or Sathyamoorthy reservoir is the
-                                reservoir across Kotralai River in Tiruvallur district of Tamil Nadu State. It acts as
-                                the important water source for Chennai city which is 60 km away "
+                              <h4 class="mb-3">
+                                <i
+                                  class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"
+                                ></i
+                                ><span class="" style="color: white"
+                                  >Poondi Reservoir</span
+                                >
+                              </h4>
+                              <p class="font-size-16 mb-4" style="color: white">
+                                " Poondi Reservoir or Sathyamoorthy reservoir is
+                                the reservoir across Kotralai River in
+                                Tiruvallur district of Tamil Nadu State. It acts
+                                as the important water source for Chennai city
+                                which is 60 km away "
                               </p>
 
                               <div>
-                                <h4 class="font-size-16 " style="color: white;">1942 </h4>
+                                <h4 class="font-size-16" style="color: white">
+                                  1942
+                                </h4>
                                 <!-- <p class="font-size-14 mb-0">- Skote User</p> -->
                               </div>
                             </div>
-
                           </div>
                         </ng-template>
                         <ng-template carouselSlide>
                           <div class="item">
                             <div class="py-3">
-                              <h4 class="mb-3"><i
-                                  class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"></i><span
-                                  class="" style="color: white;">Sholavaram aeri</span></h4>
-                              <p class="font-size-16 mb-4" style="color: white;">"Sholavaram aeri, or Sholavaram lake, is located in Ponneri
-                                taluk of Thiruvallur district, Tamil Nadu, India. It is one of the rain-fed reservoirs
-                                from where water is drawn for supply Chennai city from this lake to Puzhal lake through
-                                canals."</p>
+                              <h4 class="mb-3">
+                                <i
+                                  class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"
+                                ></i
+                                ><span class="" style="color: white"
+                                  >Sholavaram aeri</span
+                                >
+                              </h4>
+                              <p class="font-size-16 mb-4" style="color: white">
+                                "Sholavaram aeri, or Sholavaram lake, is located
+                                in Ponneri taluk of Thiruvallur district, Tamil
+                                Nadu, India. It is one of the rain-fed
+                                reservoirs from where water is drawn for supply
+                                Chennai city from this lake to Puzhal lake
+                                through canals."
+                              </p>
 
                               <div>
-                                <h4 class="font-size-16 " style="color: white;">1877</h4>
+                                <h4 class="font-size-16" style="color: white">
+                                  1877
+                                </h4>
                                 <!-- <p class="font-size-14 mb-0">- Skote User</p> -->
                               </div>
                             </div>
-
                           </div>
                         </ng-template>
                       </owl-carousel-o>
@@ -68,7 +86,6 @@
     <div class="col-xl-3">
       <div class="auth-full-page-content p-md-5 p-4">
         <div class="w-100">
-
           <div class="d-flex flex-column h-100">
             <!-- <div class="mb-4 mb-md-5">
               <a routerLink="/" class="d-block auth-logo">
@@ -77,7 +94,6 @@
               </a>
             </div> -->
             <div class="my-auto">
-
               <div>
                 <h5 class="text-primary">Welcome Back !</h5>
                 <p class="text-muted">Sign in</p>
@@ -85,15 +101,25 @@
 
               <div class="mt-4">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
                   <div class="mb-3">
                     <label for="email">Username</label>
-                    <input type="email" class="form-control" id="email" formControlName="email"
-                      [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter email">
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                      <div *ngIf="f.email.errors.required">Email is required</div>
-                      <div *ngIf="f.email.errors.email">Email must be a valid email address
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      formControlName="email"
+                      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                      placeholder="Enter Username"
+                    />
+                    <div
+                      *ngIf="submitted && f.email.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.email.errors.required">
+                        Username is required
                       </div>
+                      <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address
+                      </div> -->
                     </div>
                   </div>
 
@@ -104,16 +130,33 @@
                     </div> -->
                     <label for="userpassword">Password</label>
                     <div class="input-group auth-pass-inputgroup">
-                      <input type="password" class="form-control" formControlName="password"
-                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Enter password"
-                        aria-label="Password" aria-describedby="password-addon">
-                      <button class="btn btn-light " type="button" id="password-addon"><i
-                          class="mdi mdi-eye-outline"></i></button>
-                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <span *ngIf="f.password.errors.required">Password is required</span>
+                      <input
+                        type="password"
+                        class="form-control"
+                        formControlName="password"
+                        [ngClass]="{
+                          'is-invalid': submitted && f.password.errors
+                        }"
+                        placeholder="Enter password"
+                        aria-label="Password"
+                        aria-describedby="password-addon"
+                      />
+                      <button
+                        class="btn btn-light"
+                        type="button"
+                        id="password-addon"
+                      >
+                        <i class="mdi mdi-eye-outline"></i>
+                      </button>
+                      <div
+                        *ngIf="submitted && f.password.errors"
+                        class="invalid-feedback"
+                      >
+                        <span *ngIf="f.password.errors.required"
+                          >Password is required</span
+                        >
                       </div>
                     </div>
-
                   </div>
                   <!--
                   <div class="form-check">
@@ -124,9 +167,10 @@
                   </div> -->
 
                   <div class="mt-3 d-grid">
-                    <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                    <button class="btn btn-primary btn-block" type="submit">
+                      Log In
+                    </button>
                   </div>
-
 
                   <!-- <div class="mt-4 text-center">
                     <h5 class="font-size-14 mb-3">Sign in with</h5>
@@ -149,7 +193,6 @@
                       </li>
                     </ul>
                   </div> -->
-
                 </form>
                 <!-- <div class="mt-5 text-center">
                   <p>Don't have an account ? <a routerLink="/account/signup-2" class="fw-medium text-primary"> Signup
@@ -159,9 +202,10 @@
             </div>
 
             <div class="mt-4 mt-md-5 text-center">
-              <p class="mb-0">©
-                {{year}} developed <i class="mdi mdi-heart text-danger"></i> by
-                TNWA-BOARD</p>
+              <p class="mb-0">
+                © {{ year }} developed
+                <i class="mdi mdi-heart text-danger"></i> by TNWA-BOARD
+              </p>
             </div>
           </div>
         </div>

@@ -7,45 +7,57 @@
             <h4 class="card-title mb-4">Reservoir List</h4>
           </div>
           <div class="clo-6">
-
-
-            <button type="button" class=" float-end mb-4 btn  btn-info btn-sm btn-rounded" (click)="openModal()">
-              Add Reservoir</button>
+            <button
+              type="button"
+              class="float-end mb-4 btn btn-info btn-sm btn-rounded"
+              (click)="openModal()"
+            >
+              Add Reservoir
+            </button>
           </div>
         </div>
-
 
         <div class="table-responsive mb-0">
           <table class="table table-centered table-nowrap">
             <thead class="table-light">
               <tr>
-
                 <th class="align-middle">Reservoir ID</th>
                 <th class="align-middle">Reservoir Name</th>
                 <th class="align-middle">District</th>
-                <th class="align-middle">capacity</th>
-                <th class="align-middle">full Height</th>
+                <th class="align-middle">Capacity (.mcft)</th>
+                <th class="align-middle">Full Height (.ft)</th>
                 <th class="align-middle">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of listOfReservoirs ; let i = index">
+              <tr *ngFor="let data of listOfReservoirs; let i = index">
                 <td>
-                  <a href="javascript: void(0);" class="text-body fw-bold">{{i+1}}</a>
+                  <a href="javascript: void(0);" class="text-body fw-bold">{{
+                    i + 1
+                  }}</a>
                 </td>
-                <td>{{data.name}}</td>
-                <td>{{data.region}}</td>
-                <td>{{data.capacity}}</td>
-                <td>{{data.fullHeight}}</td>
-
+                <td>{{ data.name }}</td>
+                <td>{{ data.region }}</td>
+                <td>{{ data.capacity }}</td>
+                <td>{{ data.fullHeight }}</td>
 
                 <td>
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary btn-sm btn-rounded " (click)="editModal(data?.id)">
-                    Update</button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm btn-rounded"
+                    (click)="editModal(data?.id)"
+                  >
+                    Update
+                  </button>
                   <span> | </span>
-                  <button type="button" class="btn btn-danger btn-sm btn-rounded" (click)="openModal()">
-                    Delete</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-rounded"
+                    (click)="delteReservoir(data?.id)"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -54,62 +66,92 @@
           <ng-template #content role="document" let-modal>
             <div class="modal-header">
               <h5 class="modal-title mt-0">Update Reservoir Details</h5>
-              <button type="button" class="btn-close" aria-hidden="true"
-                (click)="modal.dismiss('Cross click')"></button>
+              <button
+                type="button"
+                class="btn-close"
+                aria-hidden="true"
+                (click)="modal.dismiss('Cross click')"
+              ></button>
             </div>
             <div class="modal-body">
-
               <form [formGroup]="myForm" (ngSubmit)="submit()">
-
                 <div class="mb-3">
                   <label for="formrow-id-input">ID</label>
-                  <input type="text" disabled formControlName="id" class="form-control" id="formrow-id-input">
+                  <input
+                    type="text"
+                    disabled
+                    formControlName="id"
+                    class="form-control"
+                    id="formrow-id-input"
+                  />
                 </div>
-
 
                 <div class="mb-3">
                   <label for="formrow-name-input">Reservoir Name</label>
-                  <input type="text" formControlName="name" class="form-control" id="formrow-name-input">
+                  <input
+                    type="text"
+                    formControlName="name"
+                    class="form-control"
+                    id="formrow-name-input"
+                  />
                 </div>
 
                 <div class="mb-3">
-                  <label for="formrow-region-input">Region</label>
-                  <input type="email" formControlName="region" class="form-control" id="formrow-region-input">
+                  <label for="formrow-region-input">District</label>
+                  <input
+                    type="email"
+                    formControlName="region"
+                    class="form-control"
+                    id="formrow-region-input"
+                  />
                 </div>
-
-
 
                 <div class="mb-3">
                   <label for="formrow-fullHeight-input">Full Height</label>
                   <div class="input-group">
-                    <input type="number" formControlName="fullHeight" class="form-control"
-                      id="formrow-fullHeight-input">
+                    <input
+                      type="number"
+                      formControlName="fullHeight"
+                      class="form-control"
+                      id="formrow-fullHeight-input"
+                      step="0.1"
+                    />
                     <div class="input-group-append">
                       <span class="input-group-text">ft</span>
                     </div>
                   </div>
                 </div>
 
-
-                <div class="mb-3 ">
+                <div class="mb-3">
                   <label for="formrow-capacity-input">Capacity</label>
                   <div class="input-group">
-                    <input type="number" formControlName="capacity" class="form-control" id="formrow-capacity-input">
+                    <input
+                      type="number"
+                      formControlName="capacity"
+                      class="form-control"
+                      id="formrow-capacity-input"
+                      step="0.1"
+                    />
                     <div class="input-group-append">
                       <span class="input-group-text">mcft</span>
                     </div>
                   </div>
                 </div>
 
-
                 <div>
-                  <button type="submit" class="btn btn-primary w-md">Submit</button>
+                  <button type="submit" class="btn btn-primary w-md">
+                    Submit
+                  </button>
                 </div>
               </form>
-
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button
+                class="btn btn-secondary"
+                (click)="modal.close('Close click')"
+              >
+                Close
+              </button>
             </div>
           </ng-template>
         </div>

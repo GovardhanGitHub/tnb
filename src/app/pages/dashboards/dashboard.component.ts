@@ -32,6 +32,12 @@ export class DashboardComponent implements OnInit {
 
 
   ) { }
+
+
+  printDoc() {
+    window.print();
+  }
+
   authUser: LoginResponseDto;
   ngOnInit(): void {
 

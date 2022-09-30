@@ -15,6 +15,12 @@ export class ReservoirService {
     return this.http.post(url, body);
   }
 
+
+  delteReservoir(body: number) {
+    let url = this.rootURL + "/delete";
+    return this.http.post(url, body);
+  }
+
   updateReservoir(body: Reservoir) {
     let url = this.rootURL + "/addReservoir";
     return this.http.post(url, body);

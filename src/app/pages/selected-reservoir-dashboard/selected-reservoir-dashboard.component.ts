@@ -110,6 +110,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       presentDepth.push(r.presentDepthOfStorage)
     });
 
+
     // this.dashedLineChart.xaxis.categories = xAxisDateWise;
     console.log("xAxisDateWise ", presentDepth, xAxisDateWise);
 
@@ -243,6 +244,9 @@ export class SelectedReservoirDashboardComponent implements OnInit {
 
   }
 
+  printDoc() {
+    window.print();
+  }
 
   submit() {
 

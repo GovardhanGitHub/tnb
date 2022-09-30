@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" id="printPageButton">
   <!-- start page title -->
   <!-- <app-page-title title="Apex charts" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
   <!-- end page title -->
@@ -40,12 +40,15 @@
               <!-- <div class="avatar-md profile-user-wid mb-4">
                             <img  alt="" class="img-thumbnail rounded-circle">
                         </div> -->
-              <h1 class="text-truncate mb-2">
-                <strong>{{ user?.reservoirs[0]?.name }}</strong>
+              <h1
+                *ngIf="user && user?.reservoirs[0]"
+                class="text-truncate mb-2"
+              >
+                <strong>{{ user?.reservoirs[0]?.name || "NA" }}</strong>
               </h1>
               <h5 class="font-size-15 text-truncate">
                 <span class="text-info">Maintainer Name : </span>
-                {{ user?.name }}
+                {{ user?.name || "NA" }}
               </h5>
               <!-- <p class="text-muted mb-0 text-truncate">{{user?.email}}</p> -->
             </div>
@@ -67,9 +70,18 @@
               <div class="row">
                 <div class="col">
                   <div>
-                    <h5 class="text-center font-weight-bold">
+                    <h5
+                      class="text-center font-weight-bold"
+                      *ngIf="reservoirCapacity"
+                    >
                       {{ reservoirCapacity }}
                       <span class="text-center">(in mcft.)</span>
+                    </h5>
+                    <h5
+                      *ngIf="!reservoirCapacity"
+                      class="text-center font-weight-bold"
+                    >
+                      "NA"
                     </h5>
                   </div>
                 </div>
@@ -90,11 +102,18 @@
               <div class="row">
                 <div class="col">
                   <div>
-                    <h5 class="text-center">
+                    <h5 *ngIf="reservoirFullHeight" class="text-center">
                       <span class="font-weight-bold">{{
                         reservoirFullHeight
                       }}</span>
                       (in ft.)
+                    </h5>
+
+                    <h5
+                      *ngIf="!reservoirFullHeight"
+                      class="text-center font-weight-bold"
+                    >
+                      "NA"
                     </h5>
                   </div>
                 </div>
@@ -172,18 +191,32 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-4">Lateset Details</h4>
-          <button
-            class="btn btn-info btn-sm m-2"
-            *ngIf="isAdmin == false"
-            (click)="openModal()"
-          >
-            Add today update
-          </button>
+        <div class="d-flex justify-content-between" id="printPageButton">
+          <div class="col-lg-6">
+            <h4 class="card-title mb-4">Lateset Details</h4>
+          </div>
+          <div class="float-end">
+            <button
+              id="printPageButton"
+              class="btn btn-info btn-sm m-2"
+              *ngIf="isAdmin == false"
+              (click)="openModal()"
+            >
+              Add today update
+            </button>
+
+            <button
+              class="btn border m-2"
+              id="printPageButton"
+              (click)="printDoc()"
+            >
+              <i class="mdi mdi-file-pdf h2 text-danger align-middle"></i>
+            </button>
+          </div>
         </div>
-        <div class="table-responsive mb-0">
-          <table class="table table-centered table-sm table-nowrap">
+
+        <div class="table-responsive mb-0 print-wrapper">
+          <table class="table table-centered table-sm table-nowrap my-table">
             <thead class="table-light">
               <tr>
                 <!-- <th style="width: 20px;">
@@ -205,7 +238,14 @@
                 <th class="align-middle">Rainfall (in mm)</th>
                 <th class="align-middle">Present Depth Of Storage(in ft)</th>
                 <th class="align-middle">Present Storage(in mcft)</th>
-                <th class="align-middle" *ngIf="isAdmin == false">Actions</th>
+
+                <th
+                  class="align-middle"
+                  id="printPageButton"
+                  *ngIf="isAdmin == false"
+                >
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -216,7 +256,12 @@
                   }}</a>
                 </td>
 
-                <td>{{ data.lastModified | date: "medium" }}</td>
+                <td>
+                  <span>{{ (data.date | date) || "NA" }}</span> <br />
+                  <span class="font-size-10 text-primary">{{
+                    data.lastModified | date: "medium"
+                  }}</span>
+                </td>
 
                 <!-- <td>{{data.reservoir?.name}}</td>
                 <td>{{data.user?.username}}</td>
@@ -235,7 +280,7 @@
                   <h5 class="text-info">{{ data.presentStorage }}</h5>
                 </td>
 
-                <td>
+                <td id="printPageButton">
                   <!-- Button trigger modal -->
                   <button
                     type="button"

@@ -65,7 +65,7 @@ export class AddMaintainerComponent implements OnInit {
 
   submit() {
 
-    console.log(this.myForm.value);
+    console.log("this.myForm.value " , this.myForm.value);
     if (this.editMode) {
       this.userService.assignReservoirToUser(this.myForm.value)
         .subscribe(res => {
@@ -168,6 +168,9 @@ export class AddMaintainerComponent implements OnInit {
     let editUser = {
       id: user?.id,
       username: user?.username,
+      password: user?.plainPassword,
+      email: user?.email,
+      phone: user?.phone,
       roles: roleIDs,
       reservoirs: reservoirIDs
     };

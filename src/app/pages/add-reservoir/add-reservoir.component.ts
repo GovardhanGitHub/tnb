@@ -70,6 +70,18 @@ export class AddReservoirComponent implements OnInit {
 
   }
 
+
+  delteReservoir(id: number) {
+    console.log(id);
+
+    if (id != null)
+      this.reservoirService.delteReservoir(id)
+        .subscribe(resposne => {
+          console.log("resposne", resposne);
+          this.ngOnInit();
+        });
+  }
+
   submit() {
     if (!this.editMode) {
       console.log(this.myForm.value);
@@ -78,9 +90,10 @@ export class AddReservoirComponent implements OnInit {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
-          this.myForm.reset();
           this.editMode = false;
-        }
+
+        },
+          error => alert("something went wrong!")
         );
     }
     else {
@@ -92,11 +105,14 @@ export class AddReservoirComponent implements OnInit {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
-          this.myForm.reset();
-        }
+
+        },
+          error => alert("something went wrong!")
         );
 
     }
+    this.myForm.reset();
+
 
   }
 
