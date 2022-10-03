@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservoirEveryDayUpdateDto } from 'src/app/core/models/ReservoirEveryDayUpdateDto';
 import { ReservoirDetailsResponseDto } from 'src/app/core/models/ReservoirDetailsResponse';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-selected-reservoir-dashboard',
@@ -34,6 +35,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   reservoirEveryDayUpdateDto: ReservoirEveryDayUpdateDto = {} as ReservoirEveryDayUpdateDto;
   reservoirFullHeight: number;
   reservoirCapacity: number;
+  reservoirName: string;
   isAdmin = false;
   todayDate = "";
 
@@ -68,9 +70,11 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       this.findMaintainerByName(this.authUser?.authentication.principal?.username);
     } else {
       this.isAdmin = true;
+      this.findReservoirById(this.id)
       this.findReservoirDetailsById(this.id);
     }
   }
+
   id: any;
   openModal() {
     this.modalService.open(this.content, { centered: true });
@@ -86,13 +90,39 @@ export class SelectedReservoirDashboardComponent implements OnInit {
           this.isReservoirAssigned = true;
           this.reservoirEveryDayUpdateDto.userId = this.user.id;
           this.reservoirEveryDayUpdateDto.reservoirId = this.user.reservoirs[0].id
-
+          this.reservoirName = this.user?.reservoirs[0]?.name
           this.reservoirCapacity = this.user?.reservoirs[0]?.capacity
           this.reservoirFullHeight = this.user?.reservoirs[0]?.fullHeight
 
           this.findReservoirDetailsById(this.user.reservoirs[0].id)
         }
       });
+  }
+  from = '';
+  to = '';
+  onFrom(v) {
+    this.from = v;
+    this.onChagne()
+  }
+
+  onTo(v) {
+    this.to = v
+    this.onChagne()
+  }
+
+  onChagne() {
+    console.log(this.from, this.to);
+    if (this.from != '' && this.to != '') {
+      let from = new Date(this.from);
+      let to = new Date(this.to);
+      this.reservoirDetailsList = this.backupReservoirDetailsResponseDto.filter(e => {
+        console.log("e.date ", e.date);
+        let date = new Date(e?.date)
+        return (date >= from && date <= to)
+      })
+
+      this.fetchChartData(this.reservoirDetailsList);
+    }
   }
 
   fetchChartData(reservoirDetailsList: ReservoirDetailsResponseDto[]) {
@@ -204,18 +234,33 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   }
 
   reservoir: any = {}
+  findReservoirById(id) {
+    this.reservoirService.findReservoirById(id)
+      .subscribe((res: any) => {
+        this.reservoir = res
+        if (this.reservoir != null) {
+          this.reservoirName = this.reservoir?.name
+          this.reservoirCapacity = this.reservoir?.capacity
+          this.reservoirFullHeight = this.reservoir?.fullHeight
+          this.findReservoirDetailsById(this.reservoir.id)
+        }
+
+      }, error => alert("error occur while fetching reservoir " + error));
+  }
+
+
+
+
 
   reservoirDetailsList: ReservoirDetailsResponseDto[];
+  backupReservoirDetailsResponseDto: ReservoirDetailsResponseDto[];
   findReservoirDetailsById(id) {
     this.reservoirService.getReservoirEveryDayDetails(id)
       .subscribe((res: ReservoirDetailsResponseDto[]) => {
         console.log("reservoir details :", res);
         this.reservoirDetailsList = res
-        if (this.reservoirDetailsList.length > 0) {
-          this.reservoirCapacity = this.reservoirDetailsList[0]?.reservoir?.capacity
-          this.reservoirFullHeight = this.reservoirDetailsList[0]?.reservoir?.fullHeight
-          this.user = this.reservoirDetailsList[0].user;
-        }
+
+        this.backupReservoirDetailsResponseDto = this.reservoirDetailsList
         this.fetchChartData(this.reservoirDetailsList);
       });
   }

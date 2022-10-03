@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Reservoir } from "../models/reservoirdto";
 
@@ -26,10 +26,27 @@ export class ReservoirService {
     return this.http.post(url, body);
   }
 
+
+  findReservoirEveryDayUpdateByDate(body: any) {
+    const headerDict = {
+      'Content-Type': 'application/json'
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+
+
+    let url = this.rootURL + "/findReservoirEveryDayUpdateByDate";
+    return this.http.post(url, { date: body }, requestOptions);
+  }
+
   updateReservoirEveryDayDetails(body: any) {
     let url = this.rootURL + "/updateEveryDayDetails";
     return this.http.post(url, body);
   }
+
   editEveryDayDetails(body: any) {
     let url = this.rootURL + "/editEveryDayDetails";
     return this.http.post(url, body);
@@ -39,6 +56,14 @@ export class ReservoirService {
     let url = this.rootURL + "/getReservoirEveryDayDetails/" + id;
     return this.http.get(url);
   }
+
+
+  findReservoirById(id: number) {
+    let url = this.rootURL + "/findReservoirById/" + id;
+    return this.http.get(url);
+  }
+
+
 
   findAll() {
     let url = this.rootURL + "/findAll";

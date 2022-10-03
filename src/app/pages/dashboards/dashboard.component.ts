@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { User } from './../../core/models/auth.models';
 import { UserService } from './../../core/services/user.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
   recentOutflow;
   recentPDS;
   recentPS;
+  district;
 
   constructor(
     private modalService: NgbModal,
@@ -80,23 +82,83 @@ export class DashboardComponent implements OnInit {
 
 
   listOfUserswithUpdatedDetails: any[] = []
-  getRecentUpdatedData(listOfUsers: any[]) {
-    listOfUsers.forEach(element => {
-      // this.findReservoirDetailsById(element.reservoirs[0]?.id)
-      if (element.id == null)
-        this.listOfUserswithUpdatedDetails.push(element)
-      else
-        this.reservoirService.getReservoirEveryDayDetails(element.id)
-          .subscribe((res: ReservoirDetailsResponseDto[]) => {
-            console.log("id , reservoir details :", element.id, res);
-            this.reservoirDetailsList = res
-            element = { ...element, ...{ reservoirDetailsList: this.reservoirDetailsList } }
-            console.log("element", element);
-            this.listOfUserswithUpdatedDetails.push(element)
-          });
-    });
+  backUpListOfUserswithUpdatedDetails: any[] = []
+  todaysListOfUserswithUpdatedDetails: any[] = []
 
+  getRecentUpdatedData(reservoirList: any[]) {
+    // this.getTodayDate();
+    reservoirList.forEach(element => {
+      this.reservoirService.getReservoirEveryDayDetails(element.id)
+        .subscribe((res: ReservoirDetailsResponseDto[]) => {
+          console.log("id , reservoir details :", element.id, res);
+
+          element = { ...element, ...{ reservoirDetailsList: res } }
+          this.backUpListOfUserswithUpdatedDetails.push(element)
+
+          let reservoirDetailsList: any[] = []
+          res.forEach(reservoir => {
+            if (reservoir.date?.toString() == this.date) {
+              reservoirDetailsList.push(reservoir)
+            }
+          });
+          this.reservoirDetailsList = reservoirDetailsList
+          element = { ...element, ...{ reservoirDetailsList: this.reservoirDetailsList } }
+          console.log("element", element);
+          this.listOfUserswithUpdatedDetails.push(element)
+          this.todaysListOfUserswithUpdatedDetails = this.listOfUserswithUpdatedDetails
+        });
+    });
     console.log("listOfUserswithUpdatedDetails", this.listOfUserswithUpdatedDetails);
+  }
+
+
+
+  date = new Date().toLocaleDateString("fr-CA");
+
+
+
+  onSelect(selectedDate) {
+    console.log(selectedDate);
+    this.listOfUserswithUpdatedDetails = this.todaysListOfUserswithUpdatedDetails.filter(res => {
+      return res.region == selectedDate;
+    })
+
+  }
+
+  onChagne(selectedDate) {
+
+
+    this.date = selectedDate;
+
+    if (selectedDate == '') {
+      this.listOfUserswithUpdatedDetails = this.todaysListOfUserswithUpdatedDetails;
+      return;
+    }
+
+    this.listOfUserswithUpdatedDetails = this.backUpListOfUserswithUpdatedDetails.filter(element => {
+      this.reservoirDetailsList = element.reservoirDetailsList.filter(reservoirDetail => {
+        console.log(reservoirDetail.date, this.date);
+        return reservoirDetail.date == this.date
+      });
+      console.log("length ", this.reservoirDetailsList.length, this.reservoirDetailsList);
+
+      if (this.reservoirDetailsList.length > 0)
+        return true;
+      else return false;
+    });
+  }
+
+  convertFt2Meter(valNum) {
+    if (valNum > 0)
+      return Number(valNum / 3.2808).toFixed(2) + " .m";
+    else "NA"
+  }
+
+
+  findByDistrict(district: string) {
+    this.listOfUserswithUpdatedDetails.forEach(ele => {
+      console.log("fjsldjfl", ele.region);
+    })
   }
 
 
@@ -125,6 +187,8 @@ export class DashboardComponent implements OnInit {
     this.reservoirService.findAll().subscribe(res => {
       console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)
       this.reservoirList = res;
+      console.log(" this.reservoirList", this.reservoirList);
+
       this.getRecentUpdatedData(this.reservoirList);
     },
       (err) => {

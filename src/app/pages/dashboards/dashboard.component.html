@@ -3,150 +3,246 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-4 font-size-18">Reservoir Details</h4>
+          <h5 class="card-title mb-4 font-size-18">Reservoir Details</h5>
           <!-- <button class="btn btn-info btn-sm m-2" (click)="openModal()">PDF</button> -->
-          <button class="btn border m-2" id="printPageButton" (click)="printDoc()">
+        </div>
+
+        <div class="d-flex justify-content-end my-2">
+          <!-- <h6 class="text-secondary font-size-18 mx-2">{{ "date" || "NA" }}</h6> -->
+
+          <select
+            style="display: inline; width: 15%"
+            name="contactMethod"
+            id="contactMethod"
+            class="form-control float-right"
+            [(value)]="district"
+            (change)="onSelect($event.target.value)"
+          >
+            <option hidden>----filter by District-----</option>
+            <option
+              *ngFor="let method of reservoirList"
+              [value]="method.region"
+            >
+              {{ method.region }}
+            </option>
+          </select>
+
+          <input
+            style="display: inline; width: 10%"
+            type="date"
+            [(value)]="date"
+            class="form-control float-end mx-2"
+            id="formrow-date-input"
+            (change)="onChagne($event.target.value)"
+          />
+
+          <button class="btn border" id="printPageButton" (click)="printDoc()">
             <i class="mdi mdi-file-pdf h2 text-danger align-middle"></i>
           </button>
         </div>
+
         <div class="table-responsive mb-0">
           <table class="table">
-            <thead class="table-light">
+            <thead class="table-light thead-light">
               <tr>
                 <!-- <th class="align-middle">Reservoir ID</th> -->
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Reservoir Name
                 </th>
-                <th style="width: 10.66%" class="align-middle font-size-14">
+
+                <th
+                  (click)="findByDistrict('a')"
+                  style="width: 10%"
+                  class="align-middle font-size-14"
+                >
                   District
                 </th>
 
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Full Height (.ft)
                 </th>
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Capacity(in mcft)
                 </th>
 
-
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Present Depth Of Storage(in ft)
                 </th>
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Present Storage(in mcft)
                 </th>
 
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Inflow(in c/s)
                 </th>
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Outflow(in c/s)
                 </th>
 
-                <!-- <th class="align-m iddle">Rainfall (in mm)</th> -->
+                <th style="width: 10%" class="align-m iddle">
+                  Rainfall (in mm)
+                </th>
 
-
-                <th style="width: 10.66%" class="align-middle font-size-14">
+                <th style="width: 10%" class="align-middle font-size-14">
                   Last Updated
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let data of listOfUserswithUpdatedDetails;
-                  let i = index
-                "
-                (click)="redirectToDetailsPage(data.id)"
-              >
-                <!-- <td>
+            <ng-container
+              *ngIf="listOfUserswithUpdatedDetails.length > 0; else abc"
+            >
+              <tbody>
+                <tr
+                  *ngFor="
+                    let data of listOfUserswithUpdatedDetails;
+                    let i = index
+                  "
+                >
+                  <!-- <td>
                   <a href="javascript: void(0);" class="text-body fw-bold">{{data.id}}</a>
                 </td> -->
 
-                <td>
-                  <h4>{{ data.name || "NA" }}</h4>
-                </td>
-                <!-- <td>{{findReservoirDetailsById(data.id) || "NA"}}</td> -->
-                <td>
-                  <h4>{{ data.region || "NA" }}</h4>
-                </td>
-
-                <td class="text-info">
-                  <h4>{{ data.fullHeight || "NA" }}</h4>
-                </td>
-
-                <td class="text-success">
-                  <h4>{{ data.capacity || "NA" }}</h4>
-                </td>
-
-
-                <td>
-                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
-                    ><h4 class="text-info">
-                      {{
-                        data?.reservoirDetailsList[0]?.presentDepthOfStorage ||
-                          "NA"
-                      }}
-                    </h4>
-                  </span>
-                  <ng-template #x>
-                    <h5 class="text-danger">* NA</h5>
-                  </ng-template>
-                </td>
-
-                <td>
-                  <h4 class="text-success">
-                    <span
-                      *ngIf="data?.reservoirDetailsList?.length > 0; else x"
-                      >{{
-                        data?.reservoirDetailsList[0]?.presentStorage || "NA"
-                      }}</span
+                  <td>
+                    <a
+                      class="font-size-16"
+                      (click)="redirectToDetailsPage(data.id)"
                     >
-                  </h4>
-                  <ng-template #x>
-                    <h5 class="text-danger">* NA</h5>
-                  </ng-template>
-                </td>
+                      {{ data.name || "NA" }}
+                    </a>
+                  </td>
+                  <!-- <td>{{findReservoirDetailsById(data.id) || "NA"}}</td> -->
+                  <td>
+                    <h5>{{ data.region || "NA" }}</h5>
+                  </td>
 
+                  <td class="text-info">
+                    <h5>{{ data.fullHeight || "NA" }}</h5>
+                    <span class="font-size-10 text-primary">{{
+                      convertFt2Meter(data.fullHeight)
+                    }}</span>
+                  </td>
 
-                <td>
-                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
-                    ><h4>
-                      {{ data?.reservoirDetailsList[0]?.inflow || "NA" }}
-                    </h4>
-                  </span>
-                  <ng-template #x>
-                    <h5 class="text-danger">* NA</h5>
-                  </ng-template>
-                </td>
+                  <td class="text-success">
+                    <h5>{{ data.capacity || "NA" }}</h5>
+                  </td>
 
-                <td>
-                  <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
-                    ><h4>
-                      {{ data?.reservoirDetailsList[0]?.outflow || "NA" }}
-                    </h4></span
-                  >
-                  <ng-template #x>
-                    <h5 class="text-danger">* NA</h5>
-                  </ng-template>
-                </td>
+                  <td>
+                    <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      ><h5 class="text-info">
+                        {{
+                          data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.presentDepthOfStorage || "NA"
+                        }}
+                        <br />
+                        <span class="font-size-10 text-primary">{{
+                          convertFt2Meter(
+                            data?.reservoirDetailsList[
+                              data?.reservoirDetailsList.length - 1
+                            ]?.presentDepthOfStorage
+                          )
+                        }}</span>
+                      </h5>
+                    </span>
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
 
-                <!-- <td>{{data.fullHeight || "NA"}}</td> -->
+                  <td>
+                    <h5 class="text-success">
+                      <span
+                        *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                        >{{
+                          data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.presentStorage || "NA"
+                        }}</span
+                      >
+                    </h5>
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
 
+                  <td>
+                    <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      ><h5>
+                        {{
+                          data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.inflow || "NA"
+                        }}
+                      </h5>
+                    </span>
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
 
-                <td class="text-success">
-                  <h4>
-                    {{
-                      (data.lastModified | date: "shortTime") || "Not Update"
-                    }}
-                  </h4>
-                </td>
+                  <td>
+                    <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      ><h5>
+                        {{
+                          data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.outflow || "NA"
+                        }}
+                      </h5></span
+                    >
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
 
-                <!-- <td>{{data?.reservoirDetailsListrecentInflow[0]?.presentDepthOfStorage || "NA"}}</td>
+                  <td>
+                    <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      ><h5>
+                        {{
+                          data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.rainfall || "NA"
+                        }}
+                      </h5></span
+                    >
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
+
+                  <!-- <td>{{data.fullHeight || "NA"}}</td> -->
+
+                  <td>
+                    <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
+                      ><h5>
+                        {{
+                          (data?.reservoirDetailsList[
+                            data?.reservoirDetailsList.length - 1
+                          ]?.lastModified | date: "shortTime") || "NA"
+                        }}
+                      </h5>
+                      <span class="font-size-10 text-primary">{{
+                        date | date
+                      }}</span></span
+                    >
+                    <ng-template #x>
+                      <h5 class="text-danger">* NA</h5>
+                    </ng-template>
+                  </td>
+
+                  <!-- <td class="text-success">
+                    <h5>
+                      {{
+                        (data.lastModified | date: "shortTime") || "Not Update"
+                      }}
+                    </h5>
+                  </td> -->
+
+                  <!-- <td>{{data?.reservoirDetailsListrecentInflow[0]?.presentDepthOfStorage || "NA"}}</td>
                 <td>{{data?.reservoirDetailsListrecentInflow[0]?.presentStorage || "NA"}}</td> -->
 
-                <!-- Button trigger modal -->
-                <!-- <td>
+                  <!-- Button trigger modal -->
+                  <!-- <td>
                   <button
                     type="button"
                     class="btn btn-primary"
@@ -155,11 +251,19 @@
                     Details
                   </button>
                 </td> -->
-                <!-- <span> | </span>
+                  <!-- <span> | </span>
                   <button type="button" class="btn btn-danger btn-sm btn-rounded" (click)="openModal()">
                     Delete</button> -->
-              </tr>
-            </tbody>
+                </tr>
+              </tbody>
+            </ng-container>
+
+            <ng-template #abc>
+              <div class="d-flex align-items-center">
+                <h5 class="card-title mb-4 font-size-18">Data not found..</h5>
+                <!-- <button class="btn btn-info btn-sm m-2" (click)="openModal()">PDF</button> -->
+              </div>
+            </ng-template>
           </table>
           <!--
           <ng-template #content role="document" let-modal>

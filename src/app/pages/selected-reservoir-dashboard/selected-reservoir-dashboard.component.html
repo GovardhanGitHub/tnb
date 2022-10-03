@@ -40,16 +40,14 @@
               <!-- <div class="avatar-md profile-user-wid mb-4">
                             <img  alt="" class="img-thumbnail rounded-circle">
                         </div> -->
-              <h1
-                *ngIf="user && user?.reservoirs[0]"
-                class="text-truncate mb-2"
-              >
-                <strong>{{ user?.reservoirs[0]?.name || "NA" }}</strong>
+              <h1 class="text-truncate mb-2">
+                <strong>{{ reservoirName || "NA" }}</strong>
               </h1>
-              <h5 class="font-size-15 text-truncate">
+
+              <!-- <h5 class="font-size-15 text-truncate">
                 <span class="text-info">Maintainer Name : </span>
                 {{ user?.name || "NA" }}
-              </h5>
+              </h5> -->
               <!-- <p class="text-muted mb-0 text-truncate">{{user?.email}}</p> -->
             </div>
           </div>
@@ -81,7 +79,7 @@
                       *ngIf="!reservoirCapacity"
                       class="text-center font-weight-bold"
                     >
-                      "NA"
+                      NA
                     </h5>
                   </div>
                 </div>
@@ -113,7 +111,7 @@
                       *ngIf="!reservoirFullHeight"
                       class="text-center font-weight-bold"
                     >
-                      "NA"
+                      NA
                     </h5>
                   </div>
                 </div>
@@ -138,9 +136,10 @@
                     <label for="formrow-date-input">From</label>
                     <input
                       type="date"
-                      formControlName="date"
+                      [(value)]="from"
                       class="form-control"
                       id="formrow-date-input"
+                      (change)="onFrom($event.target.value)"
                     />
                   </div>
                 </li>
@@ -151,9 +150,10 @@
                     <label for="formrow-date-input">To</label>
                     <input
                       type="date"
-                      formControlName="date"
+                      [(value)]="to"
                       class="form-control"
                       id="formrow-date-input"
+                      (change)="onTo($event.target.value)"
                     />
                   </div>
                 </li>
@@ -216,7 +216,7 @@
 
         <div class="table-responsive mb-0 print-wrapper">
           <table class="table table-centered table-sm table-nowrap my-table">
-            <thead class="table-light">
+            <thead class="table-light header">
               <tr>
                 <!-- <th style="width: 20px;">
                   <div class="form-check font-size-16 align-middle">
@@ -276,6 +276,7 @@
                 <td id="printPageButton">
                   <!-- Button trigger modal -->
                   <button
+                    *ngIf="isAdmin == false"
                     type="button"
                     class="btn btn-primary btn-sm btn-rounded"
                     (click)="editModal(data.id)"
@@ -286,107 +287,6 @@
               </tr>
             </tbody>
           </table>
-
-          <ng-template #content role="document" let-modal>
-            <div class="modal-header">
-              <h5 class="modal-title mt-0">Order Details</h5>
-              <button
-                type="button"
-                class="btn-close"
-                aria-hidden="true"
-                (click)="modal.dismiss('Cross click')"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <p class="mb-2">
-                Product id:
-                <span class="text-primary">#SK2540</span>
-              </p>
-              <p class="mb-4">
-                Billing Name:
-                <span class="text-primary">Neal Matthews</span>
-              </p>
-              <div class="table-responsive">
-                <table class="table table-centered table-nowrap">
-                  <thead>
-                    <tr>
-                      <th scope="col">Product</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <div>
-                          <img
-                            src="assets/images/product/img-7.png"
-                            alt
-                            class="avatar-sm"
-                          />
-                        </div>
-                      </th>
-                      <td>
-                        <div>
-                          <h5 class="text-truncate font-size-14">
-                            Wireless Headphone (Black)
-                          </h5>
-                          <p class="text-muted mb-0">$ 225 x 1</p>
-                        </div>
-                      </td>
-                      <td>$ 255</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <div>
-                          <img
-                            src="assets/images/product/img-4.png"
-                            alt
-                            class="avatar-sm"
-                          />
-                        </div>
-                      </th>
-                      <td>
-                        <div>
-                          <h5 class="text-truncate font-size-14">
-                            Phone patterned cases
-                          </h5>
-                          <p class="text-muted mb-0">$ 145 x 1</p>
-                        </div>
-                      </td>
-                      <td>$ 145</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2">
-                        <h6 class="m-0 text-end">Sub Total:</h6>
-                      </td>
-                      <td>$ 400</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2">
-                        <h6 class="m-0 text-end">Shipping:</h6>
-                      </td>
-                      <td>Free</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2">
-                        <h6 class="m-0 text-end">Total:</h6>
-                      </td>
-                      <td>$ 400</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                class="btn btn-secondary"
-                (click)="modal.close('Close click')"
-              >
-                Close
-              </button>
-            </div>
-          </ng-template>
 
           <ng-template #editContent role="document" let-modal>
             <div class="modal-header">
@@ -400,11 +300,17 @@
             </div>
             <div class="modal-body">
               <form [formGroup]="myForm" (ngSubmit)="submit()">
-                <!--
-                <div class="mb-3 ">
+                <div class="mb-3">
                   <label for="formrow-id-input">ID</label>
-                  <input type = "number" disabled formControlName="id" class="form-control" id="formrow-id-input">
-                </div> -->
+                  <input
+                    type="number"
+                    disabled
+                    formControlName="id"
+                    class="form-control"
+                    id="formrow-id-input"
+                  />
+                </div>
+
                 <!--
                 <div class="mb-3 ">
                   <label for="formrow-fullHeight-input">Full Height</label>
