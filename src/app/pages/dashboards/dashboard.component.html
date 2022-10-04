@@ -19,11 +19,8 @@
             (change)="onSelect($event.target.value)"
           >
             <option hidden>----filter by District-----</option>
-            <option
-              *ngFor="let method of reservoirList"
-              [value]="method.region"
-            >
-              {{ method.region }}
+            <option *ngFor="let x of regions" [value]="x">
+              {{ x }}
             </option>
           </select>
 
@@ -36,7 +33,13 @@
             (change)="onChagne($event.target.value)"
           />
 
-          <button class="btn border" id="printPageButton" (click)="printDoc()">
+          <button class="btn border" id="printPageButton" (click)="clearFilter()">
+            <i
+              class="mdi mdi-filter-remove-outline h2 text-info align-middle "
+            ></i>
+          </button>
+
+          <button class="btn border mx-5" id="printPageButton" (click)="printDoc()">
             <i class="mdi mdi-file-pdf h2 text-danger align-middle"></i>
           </button>
         </div>

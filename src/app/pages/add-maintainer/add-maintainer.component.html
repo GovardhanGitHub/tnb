@@ -56,28 +56,38 @@
                   <span
                     class="text-warning"
                     *ngFor="let role of data.reservoirs; let isLast = last"
-                    >{{ role.name || "NA" }}{{ isLast ? "" : ", " }}
+                  >
+                    <i
+                      (click)="disableReservior(data.id)"
+                      class="mdi mdi-delete-forever h4 text-danger align-middle"
+                    ></i>
+
+                    {{ role.name || "NA" }}{{ isLast ? "" : ", " }}
                   </span>
-                  <span *ngIf="data.reservoirs?.length <= 0">NA</span>
+                  <span
+                    class="text-danger text-center"
+                    *ngIf="data.reservoirs?.length <= 0"
+                    >Not Assigned</span
+                  >
                 </td>
 
                 <td>
                   <!-- Button trigger modal -->
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm btn-rounded"
-                    (click)="editModal(data.id)"
-                  >
-                    Edit
+
+                  <button class="btn" (click)="editModal(data.id)">
+                    <i
+                      class="mdi mdi-account-edit h4 text-info align-middle"
+                    ></i>
                   </button>
-                  <span> | </span>
+
+                  <!-- <span> | </span>
                   <button
                     type="button"
                     class="btn btn-danger btn-sm btn-rounded"
                     (click)="openModal()"
                   >
                     Delete
-                  </button>
+                  </button> -->
                 </td>
               </tr>
             </tbody>
