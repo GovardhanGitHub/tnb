@@ -23,6 +23,10 @@ export class UserService {
     return this.http.post(this.rootUrl + "/updateUser", body)
   }
 
+  disableReservior(id: number) {
+    return this.http.get(this.rootUrl + "/disableReservoir/" + id)
+  }
+
 
   addUser(body: any) {
     return this.http.post(this.rootUrl + "/register", body)

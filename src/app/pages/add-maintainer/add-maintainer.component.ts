@@ -1,3 +1,4 @@
+import { Validators } from '@angular/forms';
 import { AuthenticationService } from './../../core/services/auth.service';
 import { ReservoirService } from './../../core/services/reservoir.service';
 import { UserService } from './../../core/services/user.service';
@@ -35,18 +36,29 @@ export class AddMaintainerComponent implements OnInit {
     this.myForm = new FormGroup({
       id: new FormControl(''),
 
-      username: new FormControl(''),
+      username: new FormControl('', Validators.required),
       email: new FormControl(''),
-      password: new FormControl(''),
+      password: new FormControl('', Validators.required),
       phone: new FormControl(''),
 
-      roles: new FormControl(''),
+      roles: new FormControl('', Validators.required),
       reservoirs: new FormControl(''),
       // message: new FormControl('')
     });
 
   }
 
+  disableReservior(id) {
+    this.userService.disableReservior(id).subscribe(res => {
+      console.log("🚀 ~ findAll ~ res", res)
+      // this.listOfUsers = res;
+      this.ngOnInit();
+    },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
 
   changeWebsite(evnet: any) {
     console.log(evnet);
@@ -65,9 +77,36 @@ export class AddMaintainerComponent implements OnInit {
 
   submit() {
 
-    console.log("this.myForm.value " , this.myForm.value);
-    if (this.editMode) {
-      this.userService.assignReservoirToUser(this.myForm.value)
+    if (this.myForm.valid) {
+
+      console.log("this.myForm.value ", this.myForm.value);
+      if (this.editMode) {
+        this.userService.assignReservoirToUser(this.myForm.value)
+          .subscribe(res => {
+            console.log("🚀 ~  ~ res", res)
+            this.modalService.dismissAll();
+            this.findAllUsers();
+            this.myForm.reset();
+          },
+            (err) => {
+              console.log(err);
+            }
+          )
+      }
+    }
+    else {
+      alert("please, Provide required fields(username, password, role)")
+    }
+
+
+  }
+
+
+  addMaintainer() {
+
+    console.log(this.myForm.value);
+    if (this.myForm.valid) {
+      this.userService.addUser(this.myForm.value)
         .subscribe(res => {
           console.log("🚀 ~  ~ res", res)
           this.modalService.dismissAll();
@@ -78,28 +117,10 @@ export class AddMaintainerComponent implements OnInit {
             console.log(err);
           }
         )
+
+    } else {
+      alert("please, Provide required fields(username, password, role)")
     }
-
-
-  }
-
-
-  addMaintainer() {
-
-    console.log(this.myForm.value);
-
-    this.userService.addUser(this.myForm.value)
-      .subscribe(res => {
-        console.log("🚀 ~  ~ res", res)
-        this.modalService.dismissAll();
-        this.findAllUsers();
-        this.myForm.reset();
-      },
-        (err) => {
-          console.log(err);
-        }
-      )
-
   }
 
 

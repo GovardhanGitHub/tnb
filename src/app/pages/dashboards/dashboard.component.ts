@@ -1,4 +1,4 @@
-import { filter } from 'rxjs/operators';
+import { filter, mergeMap } from 'rxjs/operators';
 import { User } from './../../core/models/auth.models';
 import { UserService } from './../../core/services/user.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -8,6 +8,7 @@ import { ReservoirService } from "src/app/core/services/reservoir.service";
 import { ReservoirDetailsResponseDto } from 'src/app/core/models/ReservoirDetailsResponse';
 import { LoginResponseDto } from 'src/app/core/models/loginResponseDto';
 import { Router } from '@angular/router';
+import { interval, timer } from 'rxjs';
 
 @Component({
   selector: "app-dashboard",
@@ -26,6 +27,8 @@ export class DashboardComponent implements OnInit {
   recentPS;
   district;
 
+
+
   constructor(
     private modalService: NgbModal,
     private reservoirService: ReservoirService,
@@ -34,6 +37,14 @@ export class DashboardComponent implements OnInit {
 
 
   ) { }
+
+
+  clearFilter() {
+    this.district = '----filter by District-----';
+    this.date = ''
+    this.ngOnInit();
+  }
+
 
 
   printDoc() {
@@ -48,7 +59,11 @@ export class DashboardComponent implements OnInit {
     ) as LoginResponseDto;
 
     this.findMaintainerByName(this.authUser?.authentication.principal?.username);
-    this.findAll();
+
+    timer(0, 1 * 60 * 1000)
+      .subscribe(() => this.findAll());
+
+    // this.findAll();
     this.findAllUsers();
     this._fetchData();
   }
@@ -109,6 +124,8 @@ export class DashboardComponent implements OnInit {
         });
     });
     console.log("listOfUserswithUpdatedDetails", this.listOfUserswithUpdatedDetails);
+    //Reservoirslist regions
+
   }
 
 
@@ -126,8 +143,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onChagne(selectedDate) {
-
-
     this.date = selectedDate;
 
     if (selectedDate == '') {
@@ -182,42 +197,28 @@ export class DashboardComponent implements OnInit {
     this._router.navigate(['selectedReservoirDashboard', id])
   }
 
+  regions: any[] = []
+  getRegions(list: any[]) {
+    list.forEach(element => {
+      this.regions.push(element?.region);
+      this.regions = [...new Set(this.regions)];
+    });
+  }
 
   findAll() {
-    this.reservoirService.findAll().subscribe(res => {
-      console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)
-      this.reservoirList = res;
-      console.log(" this.reservoirList", this.reservoirList);
+    this.reservoirService.findAll()
+      .subscribe(res => {
+        console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)
+        this.reservoirList = res;
+        this.getRegions(this.reservoirList);
+        this.getRecentUpdatedData(this.reservoirList);
 
-      this.getRecentUpdatedData(this.reservoirList);
-    },
-      (err) => {
-        console.log(err);
-      }
-    )
+      },
+        (err) => {
+          console.log(err);
+        }
+      )
   }
-
-
-  weeklyreport() {
-
-  }
-
-
-  monthlyreport() {
-
-  }
-
-  yearlyreport() {
-
-  }
-
-
-
-
-
-
-
-
 
 
 
