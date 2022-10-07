@@ -6,11 +6,18 @@ export const environment = {
 
   production: false,
   defaultauth: 'tn',
+<<<<<<< HEAD
   //  baseURL: 'http://localhost:8080',
 //  baseURL: 'http://tn:8080',
   // baseURL: 'http://3.99.153.17:8080',
    baseURL: 'http://210.18.189.94:8080',
 
+=======
+  baseURL: 'http://localhost:8080',
+  // baseURL: 'http://tn:8080',
+  // baseURL: 'http://3.99.153.17:8080',
+  // baseURL: 'http://210.18.189.94:8080',
+>>>>>>> 8704f3303345ec2f0cff9df6d759838020e736ba
 
   firebaseConfig: {
     apiKey: '',
