@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   defaultauth: 'tn',
   // baseURL: 'http://localhost:8080',
-  baseURL: 'http://127.0.0.1:8080',
+  baseURL: 'https://api.wrdpwd.com',
 
   // baseURL: 'http://tn:8080',
   // baseURL: 'http://3.99.153.17:8080',
