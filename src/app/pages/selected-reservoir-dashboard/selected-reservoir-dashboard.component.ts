@@ -6,7 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginResponseDto } from 'src/app/core/models/loginResponseDto';
 import { ChartType } from 'src/app/core/models/chartType';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ReservoirEveryDayUpdateDto } from 'src/app/core/models/ReservoirEveryDayUpdateDto';
 import { ReservoirDetailsResponseDto } from 'src/app/core/models/ReservoirDetailsResponse';
 import { error } from '@angular/compiler/src/util';
@@ -22,7 +22,8 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   constructor(private userService: UserService,
     private reservoirService: ReservoirService,
     private modalService: NgbModal,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder) { }
 
   @ViewChild("editContent") content;
   transactions;
@@ -31,7 +32,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   userId: number;
   reservoirId: number;
   isReservoirAssigned = false;
-  myForm: FormGroup;
+  myForm: FormGroup ;
   reservoirEveryDayUpdateDto: ReservoirEveryDayUpdateDto = {} as ReservoirEveryDayUpdateDto;
   reservoirFullHeight: number;
   reservoirCapacity: number;
@@ -44,19 +45,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
     this.todayDate = new Date(Date.now()).toLocaleString().split(',')[0]
     console.log("today date ", this.todayDate);
 
-    this.myForm = new FormGroup(
-      {
-        id: new FormControl(''),
-        // fullHeight: new FormControl(''),
-        // capacity: new FormControl(''),
-        date: new FormControl(this.todayDate, Validators.required),
-        presentDepthOfStorage: new FormControl(''),
-        presentStorage: new FormControl(''),
-        inflow: new FormControl(''),
-        outflow: new FormControl(''),
-        rainfall: new FormControl(''),
-        // message: new FormControl('')
-      });
+
 
     this.authUser = JSON.parse(
       localStorage.getItem("authUser")
@@ -73,11 +62,37 @@ export class SelectedReservoirDashboardComponent implements OnInit {
       this.findReservoirById(this.id)
       this.findReservoirDetailsById(this.id);
     }
+
+
+    this.myForm = new FormGroup(
+      {
+        id: new FormControl(''),
+        // fullHeight: new FormControl(''),
+        // capacity: new FormControl(''),
+        date: new FormControl('', Validators.required),
+        presentDepthOfStorage: new FormControl('', Validators.max(this.reservoirFullHeight)),
+        presentStorage: new FormControl('', Validators.max(this.reservoirCapacity)),
+        inflow: new FormControl(''),
+        outflow: new FormControl(''),
+        rainfall: new FormControl(''),
+        // message: new FormControl('')
+      });
   }
 
   id: any;
   openModal() {
     this.modalService.open(this.content, { centered: true });
+  }
+
+
+  get mf() {
+    return this.myForm.controls;
+  }
+
+  convertFt2Meter(valNum) {
+    if (valNum > 0)
+      return Number(valNum / 3.2808).toFixed(2) + " .m";
+    else "NA"
   }
 
   findMaintainerByName(name) {
@@ -294,6 +309,20 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   }
 
   submit() {
+    console.log("this.myForm.valid ", this.myForm.valid, this.myForm.controls['date'].invalid);
+
+
+
+    if (this.myForm.get('presentStorage').value > this.reservoirCapacity) {
+      alert("present storage value should be lessthen Reservoir Capacity ")
+      return;
+    }
+
+    if (this.myForm.valid) {
+      alert("Fill the Fields(date, Present Depth Of Storage , Present  Storage) ")
+      return;
+    }
+
 
     if (!this.editMode) {
       console.log(this.myForm.value, "reservoirEveryDayUpdateDto");

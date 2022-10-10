@@ -33,13 +33,21 @@
             (change)="onChagne($event.target.value)"
           />
 
-          <button class="btn border" id="printPageButton" (click)="clearFilter()">
+          <button
+            class="btn border"
+            id="printPageButton"
+            (click)="clearFilter()"
+          >
             <i
-              class="mdi mdi-filter-remove-outline h2 text-info align-middle "
+              class="mdi mdi-filter-remove-outline h2 text-info align-middle"
             ></i>
           </button>
 
-          <button class="btn border mx-5" id="printPageButton" (click)="printDoc()">
+          <button
+            class="btn border mx-5"
+            id="printPageButton"
+            (click)="printDoc()"
+          >
             <i class="mdi mdi-file-pdf h2 text-danger align-middle"></i>
           </button>
         </div>
@@ -119,23 +127,23 @@
                   </td>
 
                   <td class="text-info">
-                    <h5>{{ data.fullHeight || "NA" }}</h5>
+                    <h5>{{ (data.fullHeight | number: "1.2-2") || "NA" }}</h5>
                     <span class="font-size-10 text-primary">{{
                       convertFt2Meter(data.fullHeight)
                     }}</span>
                   </td>
 
                   <td class="text-success">
-                    <h5>{{ data.capacity || "NA" }}</h5>
+                    <h5>{{ (data.capacity | number: "1.2-2") || "NA" }}</h5>
                   </td>
 
                   <td>
                     <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
                       ><h5 class="text-info">
                         {{
-                          data?.reservoirDetailsList[
+                          (data?.reservoirDetailsList[
                             data?.reservoirDetailsList.length - 1
-                          ]?.presentDepthOfStorage || "NA"
+                          ]?.presentDepthOfStorage | number: "1.2-2") || "NA"
                         }}
                         <br />
                         <span class="font-size-10 text-primary">{{
@@ -157,9 +165,9 @@
                       <span
                         *ngIf="data?.reservoirDetailsList?.length > 0; else x"
                         >{{
-                          data?.reservoirDetailsList[
+                          (data?.reservoirDetailsList[
                             data?.reservoirDetailsList.length - 1
-                          ]?.presentStorage || "NA"
+                          ]?.presentStorage | number: "1.2-2") || "NA"
                         }}</span
                       >
                     </h5>
@@ -172,9 +180,9 @@
                     <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
                       ><h5>
                         {{
-                          data?.reservoirDetailsList[
+                          (data?.reservoirDetailsList[
                             data?.reservoirDetailsList.length - 1
-                          ]?.inflow || "NA"
+                          ]?.inflow | number: "1.2-2") || "NA"
                         }}
                       </h5>
                     </span>
@@ -187,9 +195,9 @@
                     <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
                       ><h5>
                         {{
-                          data?.reservoirDetailsList[
+                          (data?.reservoirDetailsList[
                             data?.reservoirDetailsList.length - 1
-                          ]?.outflow || "NA"
+                          ]?.outflow | number: "1.2-2") || "NA"
                         }}
                       </h5></span
                     >
@@ -202,9 +210,9 @@
                     <span *ngIf="data?.reservoirDetailsList?.length > 0; else x"
                       ><h5>
                         {{
-                          data?.reservoirDetailsList[
+                          (data?.reservoirDetailsList[
                             data?.reservoirDetailsList.length - 1
-                          ]?.rainfall || "NA"
+                          ]?.rainfall | number: "1.2-2") || "NA"
                         }}
                       </h5></span
                     >
