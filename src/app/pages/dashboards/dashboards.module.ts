@@ -1,3 +1,4 @@
+import { NoCommaPipe } from './../../core/no-comma.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +15,7 @@ import { DefaultComponent } from './default/default.component';
 import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
-  declarations: [DefaultComponent, DashboardComponent],
+  declarations: [ DefaultComponent, DashboardComponent],
   imports: [
     CommonModule,
     FormsModule,

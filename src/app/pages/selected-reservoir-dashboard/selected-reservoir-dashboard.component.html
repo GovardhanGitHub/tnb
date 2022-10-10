@@ -276,7 +276,7 @@
                   </h5>
                   <p>
                     <span class="font-size-10 text-primary"
-                      >{{ convertFt2Meter(reservoirFullHeight) }}
+                      >{{ convertFt2Meter(data.presentDepthOfStorage) }}
                     </span>
                   </p>
                 </td>
@@ -344,18 +344,6 @@
                     class="form-control"
                     id="formrow-date-input"
                   />
-
-                  <div
-                    *ngIf="
-                      myForm.controls['date'].invalid &&
-                      myForm.controls['date'].touched
-                    "
-                    class="text-danger"
-                  >
-                    <div *ngIf="myForm.controls['date'].errors.required">
-                      date is required.
-                    </div>
-                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -390,10 +378,6 @@
                     <div class="input-group-append">
                       <span class="input-group-text">ft</span>
                     </div>
-                  </div>
-
-                  <div *ngIf="myForm['presentDepthOfStorage'].errors.maxlength" class="invalid-feedback">
-                    This value is too highest. It should have lessthen ...
                   </div>
                 </div>
 

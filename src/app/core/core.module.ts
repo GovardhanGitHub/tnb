@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NoCommaPipe } from './no-comma.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NoCommaPipe
+  ],
   imports: [
     CommonModule
   ]

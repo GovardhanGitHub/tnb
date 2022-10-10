@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
   clearFilter() {
     this.district = '----filter by District-----';
     this.date = ''
-    this.ngOnInit();
+    this.findAll();
   }
 
 
@@ -101,6 +101,13 @@ export class DashboardComponent implements OnInit {
   todaysListOfUserswithUpdatedDetails: any[] = []
 
   getRecentUpdatedData(reservoirList: any[]) {
+
+
+
+    this.listOfUserswithUpdatedDetails = []
+    this.backUpListOfUserswithUpdatedDetails = []
+    this.todaysListOfUserswithUpdatedDetails = []
+
     // this.getTodayDate();
     reservoirList.forEach(element => {
       this.reservoirService.getReservoirEveryDayDetails(element.id)
@@ -206,6 +213,7 @@ export class DashboardComponent implements OnInit {
   }
 
   findAll() {
+    this.reservoirList = [];
     this.reservoirService.findAll()
       .subscribe(res => {
         console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)

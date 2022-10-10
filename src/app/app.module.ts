@@ -1,3 +1,5 @@
+import { CoreModule } from './core/core.module';
+import { NoCommaPipe } from './core/no-comma.pipe';
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
@@ -53,7 +55,7 @@ export function HttpLoaderFactory(handler: HttpBackend) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

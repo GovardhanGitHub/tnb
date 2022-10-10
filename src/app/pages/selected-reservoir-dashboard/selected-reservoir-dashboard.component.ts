@@ -32,7 +32,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   userId: number;
   reservoirId: number;
   isReservoirAssigned = false;
-  myForm: FormGroup ;
+  myForm: FormGroup;
   reservoirEveryDayUpdateDto: ReservoirEveryDayUpdateDto = {} as ReservoirEveryDayUpdateDto;
   reservoirFullHeight: number;
   reservoirCapacity: number;
@@ -309,55 +309,58 @@ export class SelectedReservoirDashboardComponent implements OnInit {
   }
 
   submit() {
-    console.log("this.myForm.valid ", this.myForm.valid, this.myForm.controls['date'].invalid);
-
-
-
-    if (this.myForm.get('presentStorage').value > this.reservoirCapacity) {
-      alert("present storage value should be lessthen Reservoir Capacity ")
-      return;
-    }
-
     if (this.myForm.valid) {
-      alert("Fill the Fields(date, Present Depth Of Storage , Present  Storage) ")
+      if (!this.editMode) {
+        console.log(this.myForm.value, "reservoirEveryDayUpdateDto");
+        this.reservoirEveryDayUpdateDto = { ...this.reservoirEveryDayUpdateDto, ...this.myForm.value }
+        if (this.reservoirEveryDayUpdateDto.reservoirId && this.reservoirEveryDayUpdateDto.userId && this.reservoirEveryDayUpdateDto?.date) {
+          console.log(this.reservoirEveryDayUpdateDto);
+          this.reservoirService.updateReservoirEveryDayDetails(this.reservoirEveryDayUpdateDto)
+            .subscribe(res => {
+              console.log(res);
+              this.modalService.dismissAll();
+              this.myForm.reset();
+              this.ngOnInit();
+            });
+        } else {
+          alert("data is missing")
+        }
+      } else {
+
+        this.reservoirEveryDayUpdateDto = { ...this.myForm.value }
+        console.log("else edit = this.reservoirEveryDayUpdateDto", this.reservoirEveryDayUpdateDto);
+
+        if (this.reservoirEveryDayUpdateDto.id) {
+          console.log(this.reservoirEveryDayUpdateDto);
+          this.reservoirService.editEveryDayDetails(this.reservoirEveryDayUpdateDto)
+            .subscribe(res => {
+              console.log(res);
+              this.modalService.dismissAll();
+              this.editMode = false;
+              this.ngOnInit();
+            });
+        } else {
+          alert("without id edit operation is not performed..")
+        }
+
+      }
+    }
+    else {
+      let newLine = "\r\n"
+      let msg = "Enterd data is Invalid..please make sure to meet this critiria"
+      msg += newLine;
+      msg += "1. Date is required"
+      msg += newLine;
+      msg += "2. Present Depth Of Storage is lessthen Reservoir Full Height"
+      msg += newLine;
+      msg += "3. Present Storage is lessthen Reservoir Capacity"
+
+      alert(msg)
       return;
     }
 
 
-    if (!this.editMode) {
-      console.log(this.myForm.value, "reservoirEveryDayUpdateDto");
-      this.reservoirEveryDayUpdateDto = { ...this.reservoirEveryDayUpdateDto, ...this.myForm.value }
-      if (this.reservoirEveryDayUpdateDto.reservoirId && this.reservoirEveryDayUpdateDto.userId && this.reservoirEveryDayUpdateDto?.date) {
-        console.log(this.reservoirEveryDayUpdateDto);
-        this.reservoirService.updateReservoirEveryDayDetails(this.reservoirEveryDayUpdateDto)
-          .subscribe(res => {
-            console.log(res);
-            this.modalService.dismissAll();
-            this.myForm.reset();
-            this.ngOnInit();
-          });
-      } else {
-        alert("data is missing")
-      }
-    } else {
-
-      this.reservoirEveryDayUpdateDto = { ...this.myForm.value }
-      console.log("else edit = this.reservoirEveryDayUpdateDto", this.reservoirEveryDayUpdateDto);
-
-      if (this.reservoirEveryDayUpdateDto.id) {
-        console.log(this.reservoirEveryDayUpdateDto);
-        this.reservoirService.editEveryDayDetails(this.reservoirEveryDayUpdateDto)
-          .subscribe(res => {
-            console.log(res);
-            this.modalService.dismissAll();
-            this.editMode = false;
-            this.ngOnInit();
-          });
-      } else {
-        alert("without id edit operation is not performed..")
-      }
-
-    }
+    this.myForm.reset();
 
   }
 
