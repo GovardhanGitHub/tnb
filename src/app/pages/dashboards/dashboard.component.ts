@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
 
     // this.getTodayDate();
     reservoirList.forEach(element => {
-      this.reservoirService.getReservoirEveryDayDetails(element.id)
+      this.reservoirService.findTodayReservoirEveryDayDetails(element.id)
         .subscribe((res: ReservoirDetailsResponseDto[]) => {
           console.log("id , reservoir details :", element.id, res);
 
@@ -188,7 +188,7 @@ export class DashboardComponent implements OnInit {
   reservoirDetailsList: ReservoirDetailsResponseDto[];
   findReservoirDetailsById(id) {
     if (id != null)
-      this.reservoirService.getReservoirEveryDayDetails(id)
+      this.reservoirService.findTodayReservoirEveryDayDetails(id)
         .subscribe((res: ReservoirDetailsResponseDto[]) => {
           console.log("id , reservoir details :", id, res);
           this.reservoirDetailsList = res
