@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
   clearFilter() {
     this.district = '----filter by District-----';
     this.date = ''
-    this.findAll();
+    this.getRecentUpdatedData(this.reservoirList);
   }
 
 
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
 
     this.findMaintainerByName(this.authUser?.authentication.principal?.username);
 
-    timer(0, 1 * 60 * 1000)
+    timer(0, 1 * 60 * 100000)
       .subscribe(() => this.findAll());
 
     // this.findAll();
@@ -97,41 +97,20 @@ export class DashboardComponent implements OnInit {
 
 
   listOfUserswithUpdatedDetails: any[] = []
-  backUpListOfUserswithUpdatedDetails: any[] = []
-  todaysListOfUserswithUpdatedDetails: any[] = []
+
 
   getRecentUpdatedData(reservoirList: any[]) {
-
-
-
     this.listOfUserswithUpdatedDetails = []
-    this.backUpListOfUserswithUpdatedDetails = []
-    this.todaysListOfUserswithUpdatedDetails = []
-
     // this.getTodayDate();
     reservoirList.forEach(element => {
       this.reservoirService.findTodayReservoirEveryDayDetails(element.id)
         .subscribe((res: ReservoirDetailsResponseDto[]) => {
           console.log("id , reservoir details :", element.id, res);
-
           element = { ...element, ...{ reservoirDetailsList: res } }
-          this.backUpListOfUserswithUpdatedDetails.push(element)
-
-          let reservoirDetailsList: any[] = []
-          res.forEach(reservoir => {
-            if (reservoir.date?.toString() == this.date) {
-              reservoirDetailsList.push(reservoir)
-            }
-          });
-          this.reservoirDetailsList = reservoirDetailsList
-          element = { ...element, ...{ reservoirDetailsList: this.reservoirDetailsList } }
-          console.log("element", element);
           this.listOfUserswithUpdatedDetails.push(element)
-          this.todaysListOfUserswithUpdatedDetails = this.listOfUserswithUpdatedDetails
+
         });
     });
-    console.log("listOfUserswithUpdatedDetails", this.listOfUserswithUpdatedDetails);
-    //Reservoirslist regions
 
   }
 
@@ -141,33 +120,35 @@ export class DashboardComponent implements OnInit {
 
 
 
-  onSelect(selectedDate) {
-    console.log(selectedDate);
-    this.listOfUserswithUpdatedDetails = this.todaysListOfUserswithUpdatedDetails.filter(res => {
-      return res.region == selectedDate;
+  // filter by region
+  onSelect(region) {
+    console.log(region);
+    this.listOfUserswithUpdatedDetails = this.listOfUserswithUpdatedDetails.filter(res => {
+      return res.region == region;
     })
 
   }
 
+  //filter by date
   onChagne(selectedDate) {
     this.date = selectedDate;
 
     if (selectedDate == '') {
-      this.listOfUserswithUpdatedDetails = this.todaysListOfUserswithUpdatedDetails;
       return;
     }
 
-    this.listOfUserswithUpdatedDetails = this.backUpListOfUserswithUpdatedDetails.filter(element => {
-      this.reservoirDetailsList = element.reservoirDetailsList.filter(reservoirDetail => {
-        console.log(reservoirDetail.date, this.date);
-        return reservoirDetail.date == this.date
-      });
-      console.log("length ", this.reservoirDetailsList.length, this.reservoirDetailsList);
+    this.listOfUserswithUpdatedDetails = []
+    this.reservoirList.forEach(element => {
+      this.reservoirService.findByDateReservoirEveryDayDetails(element.id, selectedDate)
+        .subscribe((res: ReservoirDetailsResponseDto[]) => {
+          console.log("id , reservoir details :", element.id, res);
+          element = { ...element, ...{ reservoirDetailsList: res } }
+          this.listOfUserswithUpdatedDetails.push(element)
 
-      if (this.reservoirDetailsList.length > 0)
-        return true;
-      else return false;
+        });
     });
+
+
   }
 
   convertFt2Meter(valNum) {
@@ -194,6 +175,11 @@ export class DashboardComponent implements OnInit {
           this.reservoirDetailsList = res
         });
   }
+
+
+
+
+
 
 
   openModal() {

@@ -63,6 +63,11 @@ export class ReservoirService {
     return this.http.get(url);
   }
 
+  findByDateReservoirEveryDayDetails(id: number, date) {
+    let url = this.rootURL + "/findByDateReservoirEveryDayDetails/" + id + "/" + date;
+    return this.http.get(url);
+  }
+
 
   findReservoirById(id: number) {
     let url = this.rootURL + "/findReservoirById/" + id;
