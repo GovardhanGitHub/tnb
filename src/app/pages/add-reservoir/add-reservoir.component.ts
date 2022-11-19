@@ -11,6 +11,8 @@ import { ReservoirService } from "src/app/core/services/reservoir.service";
 export class AddReservoirComponent implements OnInit {
   listOfReservoirs;
   @ViewChild("content") content;
+  imageUrl = "assets/images/reservoir.jpg";
+  fileToUpload: any;
 
   constructor(
     private modalService: NgbModal,
@@ -24,6 +26,7 @@ export class AddReservoirComponent implements OnInit {
 
 
     this.myForm = new FormGroup({
+      imageUrl: new FormControl(),
       id: new FormControl(),
       name: new FormControl(''),
       region: new FormControl(''),
@@ -34,6 +37,19 @@ export class AddReservoirComponent implements OnInit {
 
   }
 
+
+  imageURL_Change(file: FileList) {
+    this.fileToUpload = file.item(0);
+    // Show image preview
+    let reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    }
+    reader.readAsDataURL(this.fileToUpload);
+    this.myForm.patchValue({
+      imageUrl: this.imageUrl
+    })
+  }
 
   findAll() {
     this.reservoirService.findAll().subscribe(res => {
@@ -49,6 +65,7 @@ export class AddReservoirComponent implements OnInit {
 
   editMode = false;
   editModal(id) {
+    this.myForm.reset()
     this.editMode = true;
     this.modalService.open(this.content, { centered: true });
 
@@ -83,13 +100,15 @@ export class AddReservoirComponent implements OnInit {
   }
 
   submit() {
+
+
     if (!this.editMode) {
-      console.log(this.myForm.value);
       this.reservoirService.addReservoir(this.myForm.value)
         .subscribe(res => {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
+          this.myForm.reset();
           this.editMode = false;
 
         },
@@ -97,14 +116,12 @@ export class AddReservoirComponent implements OnInit {
         );
     }
     else {
-
-      console.log("udpate ", this.myForm.value);
-
       this.reservoirService.addReservoir(this.myForm.value)
         .subscribe(res => {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
+          this.myForm.reset();
 
         },
           error => alert("something went wrong!")
@@ -112,8 +129,6 @@ export class AddReservoirComponent implements OnInit {
 
     }
     this.myForm.reset();
-
-
   }
 
 

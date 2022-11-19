@@ -151,4 +151,10 @@ export class TopbarComponent implements OnInit {
       }
     }
   }
+
+
+  go2PlayStore(){
+    const url = "https://play.google.com/store/apps/details?id=com.govardhan05.AwesomeProject&hl=en_IN&gl=US"
+    window.open(url, "_blank");
+  }
 }

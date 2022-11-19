@@ -280,6 +280,21 @@
           type="button"
           class="btn header-item noti-icon"
           data-toggle="fullscreen"
+          (click)="go2PlayStore()"
+        >
+          <img
+            src="/assets/icons8-google-play-48.png"
+            height="38px"
+            width="38px"
+          />
+        </button>
+      </div>
+
+      <div class="dropdown d-none d-lg-inline-block ms-1">
+        <button
+          type="button"
+          class="btn header-item noti-icon"
+          data-toggle="fullscreen"
           (click)="fullscreen()"
         >
           <i class="bx bx-fullscreen"></i>

@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
 
     this.findMaintainerByName(this.authUser?.authentication.principal?.username);
 
-    timer(0, 1 * 60 * 100000)
+    timer(0, 1 * 60 * 10000)
       .subscribe(() => this.findAll());
 
     // this.findAll();

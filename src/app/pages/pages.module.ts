@@ -20,7 +20,6 @@ import { DashboardsModule } from './dashboards/dashboards.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddReservoirComponent } from './add-reservoir/add-reservoir.component';
 import { AddMaintainerComponent } from './add-maintainer/add-maintainer.component';
-import { ReservoirInfoComponent } from './reservoir-info/reservoir-info.component';
 import { SelectedReservoirDashboardComponent } from './selected-reservoir-dashboard/selected-reservoir-dashboard.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -33,7 +32,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   declarations: [
     AddReservoirComponent,
     AddMaintainerComponent,
-    ReservoirInfoComponent,
     SelectedReservoirDashboardComponent
   ],
   imports: [
