@@ -75,21 +75,20 @@
             </div>
             <div class="modal-body">
               <form [formGroup]="myForm" (ngSubmit)="submit()">
-                <!-- <div class="mb-3">
-                  <img *ngIf="imageUrl" [src]="imageUrl" class="img-fluid" />
+                <div class="mb-3">
+                  <img *ngIf="image" [src]="image" class="img-fluid" />
                 </div>
 
                 <div class="mb-3">
                   <label for="formrow-id-input">Image</label>
                   <input
                     type="file"
-                    formControlName="imageUrl"
                     class="form-control"
                     id="formrow-id-input"
                     accept="image/*"
                     (change)="imageURL_Change($event.target.files)"
                   />
-                </div> -->
+                </div>
 
                 <div class="mb-3">
                   <label for="formrow-id-input">ID</label>

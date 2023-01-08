@@ -11,128 +11,122 @@ import { ReservoirService } from "src/app/core/services/reservoir.service";
 export class AddReservoirComponent implements OnInit {
   listOfReservoirs;
   @ViewChild("content") content;
-  imageUrl = "assets/images/reservoir.jpg";
+  image = "assets/images/reservoir.jpg";
   fileToUpload: any;
 
   constructor(
     private modalService: NgbModal,
     private reservoirService: ReservoirService
-  ) { }
+  ) {}
 
   myForm: FormGroup;
 
   ngOnInit(): void {
     this.findAll();
 
-
     this.myForm = new FormGroup({
       imageUrl: new FormControl(),
       id: new FormControl(),
-      name: new FormControl(''),
-      region: new FormControl(''),
-      capacity: new FormControl(''),
-      fullHeight: new FormControl(''),
+      name: new FormControl(""),
+      region: new FormControl(""),
+      capacity: new FormControl(""),
+      fullHeight: new FormControl(""),
       // message: new FormControl('')
     });
-
   }
-
 
   imageURL_Change(file: FileList) {
     this.fileToUpload = file.item(0);
     // Show image preview
     let reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    }
+      this.image = event.target.result;
+    };
     reader.readAsDataURL(this.fileToUpload);
     this.myForm.patchValue({
-      imageUrl: this.imageUrl
-    })
+      imageUrl: this.image,
+    });
+    console.log(
+      "🚀 ~ file: add-reservoir.component.ts:49 ~ AddReservoirComponent ~ imageURL_Change ~ this.image",
+      this.image
+    );
   }
 
   findAll() {
-    this.reservoirService.findAll().subscribe(res => {
-      console.log("🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res", res)
-      this.listOfReservoirs = res;
-    },
+    this.reservoirService.findAll().subscribe(
+      (res) => {
+        console.log(
+          "🚀 ~ file: add-reservoir.component.ts ~ line 23 ~ AddReservoirComponent ~ this.reservoirService.findAll ~ res",
+          res
+        );
+        this.listOfReservoirs = res;
+      },
       (err) => {
         console.log(err);
       }
-    )
+    );
   }
-
 
   editMode = false;
   editModal(id) {
-    this.myForm.reset()
+    this.myForm.reset();
     this.editMode = true;
     this.modalService.open(this.content, { centered: true });
 
-    let user = this.listOfReservoirs.find(user => user.id == id);
+    let user = this.listOfReservoirs.find((user) => user.id == id);
     console.log("user ", user);
-
-
 
     let editUser = {
       id: user?.id,
       name: user?.name,
       region: user?.region,
       capacity: user?.capacity,
-      fullHeight: user?.fullHeight
-
+      fullHeight: user?.fullHeight,
     };
 
-    this.myForm.patchValue(editUser)
-
+    this.myForm.patchValue(editUser);
   }
-
 
   delteReservoir(id: number) {
     console.log(id);
 
     if (id != null)
-      this.reservoirService.delteReservoir(id)
-        .subscribe(resposne => {
-          console.log("resposne", resposne);
-          this.ngOnInit();
-        });
+      this.reservoirService.delteReservoir(id).subscribe((resposne) => {
+        console.log("resposne", resposne);
+        this.ngOnInit();
+      });
   }
 
   submit() {
-
-
+    console.log(
+      "🚀 ~ file: add-reservoir.component.ts:104 ~ AddReservoirComponent ~ submit ~ this.myForm",
+      this.myForm
+    );
+    return;
     if (!this.editMode) {
-      this.reservoirService.addReservoir(this.myForm.value)
-        .subscribe(res => {
+      this.reservoirService.addReservoir(this.myForm.value).subscribe(
+        (res) => {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
           this.myForm.reset();
           this.editMode = false;
-
         },
-          error => alert("something went wrong!")
-        );
-    }
-    else {
-      this.reservoirService.addReservoir(this.myForm.value)
-        .subscribe(res => {
+        (error) => alert("something went wrong!")
+      );
+    } else {
+      this.reservoirService.addReservoir(this.myForm.value).subscribe(
+        (res) => {
           console.log(res);
           this.modalService.dismissAll();
           this.findAll();
           this.myForm.reset();
-
         },
-          error => alert("something went wrong!")
-        );
-
+        (error) => alert("something went wrong!")
+      );
     }
     this.myForm.reset();
   }
-
-
-
 
   openModal() {
     this.modalService.open(this.content, { centered: true });
