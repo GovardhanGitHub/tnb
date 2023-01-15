@@ -108,6 +108,7 @@ export class SelectedReservoirDashboardComponent implements OnInit {
     this.userService.findMaintainerByName(name).subscribe((res) => {
       console.log("res ", res);
       this.user = res;
+
       if (this.user?.reservoirs.length > 0) {
         this.isReservoirAssigned = true;
         this.reservoirEveryDayUpdateDto.userId = this.user.id;
@@ -116,6 +117,16 @@ export class SelectedReservoirDashboardComponent implements OnInit {
         this.reservoirName = this.user?.reservoirs[0]?.name;
         this.reservoirCapacity = this.user?.reservoirs[0]?.capacity;
         this.reservoirFullHeight = this.user?.reservoirs[0]?.fullHeight;
+
+        if (this.user?.reservoirs[0]?.imageModel != null) {
+          const imageModel = this.user?.reservoirs[0]?.imageModel;
+          this.base64Data = imageModel.picByte;
+          this.retrievedImage =
+            "data:" + imageModel.type + ";base64," + this.base64Data;
+        } else {
+          this.base64Data = null;
+          this.retrievedImage = null;
+        }
 
         this.findReservoirDetailsById(this.user.reservoirs[0].id);
       }
@@ -132,6 +143,9 @@ export class SelectedReservoirDashboardComponent implements OnInit {
     this.to = v;
     this.onChagne();
   }
+
+  base64Data;
+  retrievedImage;
 
   onChagne() {
     console.log(this.from, this.to);
@@ -266,6 +280,17 @@ export class SelectedReservoirDashboardComponent implements OnInit {
           this.reservoirName = this.reservoir?.name;
           this.reservoirCapacity = this.reservoir?.capacity;
           this.reservoirFullHeight = this.reservoir?.fullHeight;
+
+          if (this.reservoir?.imageModel != null) {
+            const imageModel = this.reservoir?.imageModel;
+            this.base64Data = imageModel.picByte;
+            this.retrievedImage =
+              "data:" + imageModel.type + ";base64," + this.base64Data;
+          } else {
+            this.base64Data = null;
+            this.retrievedImage = null;
+          }
+
           this.findReservoirDetailsById(this.reservoir.id);
         }
       },
